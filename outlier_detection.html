@@ -1,0 +1,656 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Cara Kerja K-Nearest Neighbors (KNN) Secara Detail &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'outlier_detection';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="data_understanding.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome to Penambangan Data
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><strong>Cara Kerja K-Nearest Neighbors (KNN) Secara Detail</strong></a></li>
+
+
+
+
+
+
+
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Foutlier_detection.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/outlier_detection.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Cara Kerja K-Nearest Neighbors (KNN) Secara Detail</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#"><strong>Cara Kerja K-Nearest Neighbors (KNN) Secara Detail</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#menentukan-nilai-k-jumlah-tetangga-terdekat"><strong>1. Menentukan Nilai k (Jumlah Tetangga Terdekat)</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-jarak-antara-data-baru-dengan-semua-data-dalam-dataset"><strong>2. Menghitung Jarak Antara Data Baru dengan Semua Data dalam Dataset</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#menentukan-k-data-dengan-jarak-terdekat"><strong>3. Menentukan k Data dengan Jarak Terdekat</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#menentukan-prediksi-berdasarkan-k-tetangga-terdekat"><strong>4. Menentukan Prediksi Berdasarkan k Tetangga Terdekat</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#menampilkan-hasil-prediksi"><strong>5. Menampilkan Hasil Prediksi</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#contoh-ilustrasi-cara-kerja-knn-dalam-klasifikasi"><strong>Contoh Ilustrasi Cara Kerja KNN dalam Klasifikasi</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#deteksi-outliers-dengan-metode-k-nearest-neighbors-knn"><strong>Deteksi Outliers dengan Metode K-Nearest Neighbors (KNN)</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-langkah-deteksi-outliers-dengan-knn"><strong>Langkah-Langkah Deteksi Outliers dengan KNN</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#contoh-ilustrasi"><strong>Contoh Ilustrasi</strong></a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p>#<strong>Outliers Detection Menggunakan K-NN</strong></p>
+<p>#<strong>Apa itu Outliers Detections…?</strong></p>
+<p>Outlier detection adalah proses mengidentifikasi data yang menyimpang secara signifikan dari pola umum dalam suatu dataset. Outlier merupakan data yang memiliki nilai jauh berbeda dibandingkan dengan sebagian besar data lainnya, yang dapat disebabkan oleh kesalahan pengukuran, variasi alami, atau kejadian langka. Deteksi outlier sangat penting dalam berbagai bidang, seperti analisis keuangan untuk mendeteksi transaksi penipuan, bidang kesehatan untuk mengidentifikasi hasil medis yang abnormal, serta pemeliharaan prediktif untuk mencegah kerusakan mesin. Ada beberapa metode yang umum digunakan untuk mendeteksi outlier, di antaranya metode statistik seperti Z-Score dan Interquartile Range (IQR) yang menghitung distribusi data untuk menentukan apakah suatu nilai termasuk outlier. Selain itu, metode berbasis machine learning seperti K-Means Clustering, Isolation Forest, dan DBSCAN dapat digunakan untuk mengenali pola outlier secara lebih kompleks. Visualisasi data seperti boxplot dan scatter plot juga sering dimanfaatkan untuk mendeteksi outlier secara intuitif. Dengan mendeteksi outlier secara efektif, kualitas analisis data dapat ditingkatkan, sehingga menghasilkan wawasan yang lebih akurat dan dapat diandalkan.</p>
+<p>#<strong>Cara mendeteksi Outliers</strong></p>
+<p>Ada banyak cara untuk mendeteksi Outliers salah satunya adalah dengan menggunakan yaitu Metode K-Nearest Neighbors (KNN) dapat digunakan untuk mendeteksi outliers dengan cara menganalisis kedekatan setiap titik data dengan tetangganya. Dalam konteks deteksi outlier, KNN menghitung jarak antara satu titik data dengan k tetangga terdekatnya. Jika suatu data memiliki jarak rata-rata yang jauh lebih besar dibandingkan dengan titik data lainnya, maka data tersebut dapat dianggap sebagai outlier. Proses ini bekerja berdasarkan asumsi bahwa data normal cenderung berdekatan satu sama lain dalam suatu ruang fitur, sedangkan outlier akan berada jauh dari kelompok data utama. Untuk mendeteksi outlier menggunakan KNN, langkah pertama adalah menentukan jumlah tetangga terdekat (k), lalu menghitung rata-rata jarak titik ke tetangganya. Setelah itu, ditentukan threshold atau ambang batas tertentu, di mana data yang memiliki nilai rata-rata jarak lebih tinggi dari threshold akan diklasifikasikan sebagai outlier. Metode KNN ini efektif digunakan dalam dataset dengan distribusi yang tidak diketahui dan dapat menangani data berdimensi tinggi, tetapi memiliki kelemahan dalam hal komputasi karena memerlukan perhitungan jarak untuk setiap pasangan data, terutama jika jumlah data sangat besar.</p>
+<p>#<strong>Apa itu Metode K-Nearest Neighbors (KNN)…?</strong>
+K-Nearest Neighbors (KNN) adalah algoritma dalam machine learning yang digunakan untuk klasifikasi dan regresi dengan menentukan kedekatan suatu data terhadap tetangga terdekatnya. Algoritma ini termasuk dalam metode lazy learning, karena tidak memerlukan proses pelatihan model secara eksplisit, melainkan menyimpan seluruh data pelatihan dan melakukan perhitungan setiap kali ada data baru yang perlu diklasifikasikan atau diprediksi. Cara kerja KNN dimulai dengan menentukan jumlah tetangga terdekat (k), kemudian menghitung jarak antara data baru dan setiap data dalam dataset menggunakan metrik seperti Euclidean Distance, Manhattan Distance, atau Minkowski Distance. Setelah itu, dipilih k data dengan jarak terdekat, dan prediksi dilakukan berdasarkan mayoritas kelas (untuk klasifikasi) atau rata-rata nilai (untuk regresi). Kelebihan utama KNN adalah kesederhanaannya, fleksibilitasnya dalam berbagai jenis data, dan kemampuannya digunakan baik untuk klasifikasi maupun regresi. Namun, KNN memiliki kelemahan dalam hal efisiensi, terutama pada dataset besar, karena harus menghitung jarak ke seluruh data. Selain itu, pemilihan nilai k yang tepat sangat penting untuk mendapatkan hasil yang optimal. Algoritma ini banyak digunakan dalam aplikasi seperti pengenalan pola, sistem rekomendasi, serta deteksi anomali dalam data transaksi keuangan.</p>
+<p>#<strong>Cara kerja K-Nearest Neighbors (KNN)</strong></p>
+<section id="cara-kerja-k-nearest-neighbors-knn-secara-detail">
+<h1><strong>Cara Kerja K-Nearest Neighbors (KNN) Secara Detail</strong><a class="headerlink" href="#cara-kerja-k-nearest-neighbors-knn-secara-detail" title="Link to this heading">#</a></h1>
+<p>K-Nearest Neighbors (KNN) bekerja dengan prinsip dasar bahwa data yang memiliki karakteristik serupa cenderung berada dalam jarak yang berdekatan. Algoritma ini tidak memiliki tahap pelatihan eksplisit seperti model machine learning lainnya, tetapi menyimpan seluruh data pelatihan dan melakukan prediksi dengan mencari k tetangga terdekat dari data baru yang diberikan. Berikut adalah langkah-langkah kerja KNN secara rinci:</p>
+<hr class="docutils" />
+</section>
+<section id="menentukan-nilai-k-jumlah-tetangga-terdekat">
+<h1><strong>1. Menentukan Nilai k (Jumlah Tetangga Terdekat)</strong><a class="headerlink" href="#menentukan-nilai-k-jumlah-tetangga-terdekat" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p>Nilai <strong>k</strong> merupakan jumlah tetangga yang akan dipertimbangkan dalam proses klasifikasi atau regresi.</p></li>
+<li><p>Pemilihan <strong>k</strong> yang terlalu kecil bisa menyebabkan model terlalu sensitif terhadap noise, sedangkan <strong>k</strong> yang terlalu besar bisa menyebabkan model terlalu umum dan kurang akurat.</p></li>
+<li><p>Biasanya, <strong>k dipilih sebagai bilangan ganjil</strong> untuk menghindari kemungkinan hasil seri dalam klasifikasi.</p></li>
+</ul>
+<hr class="docutils" />
+</section>
+<section id="menghitung-jarak-antara-data-baru-dengan-semua-data-dalam-dataset">
+<h1><strong>2. Menghitung Jarak Antara Data Baru dengan Semua Data dalam Dataset</strong><a class="headerlink" href="#menghitung-jarak-antara-data-baru-dengan-semua-data-dalam-dataset" title="Link to this heading">#</a></h1>
+<p>Setelah k ditentukan, langkah berikutnya adalah menghitung jarak antara data yang ingin diklasifikasikan (data uji) dengan semua data dalam dataset (data pelatihan). Ada beberapa metode pengukuran jarak yang sering digunakan:</p>
+<p><img alt="image.png" src="data:image/png;base64,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" /></p>
+<p><img alt="image.png" src="data:image/png;base64,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YjeGKx+r5Uqpd8sLn+6gPnLRro41U1OT9bWynHyLz9xhQmbqDbbCaLQjE0VPo/BhQn0U6Fy0AU/RoI1llX9zxLnp6UblsbOIiKipsDsJEdFVTnvCT8HjQkRl4vlGPMJxZdWeb70puTZk4VwYlgY9HYPyaN10igZoZVlTGc36m0NEROsDgxhERERERERE1BTYnYSIiIiIiIiImgKDGERERERERETUFBjEICIiIiIiIqKmwCAGERERERERETUFBjGIiIiIiIiIqCkwiEFERERERERETYFBDCIiIiIiIiJqCgxiEBEREREREVFTYBCDiIiIiIiIiJoCgxhERERERERE1BQYxCAiIiIiIiKipsAgBhERERERERE1BQYxiIiIiIiIiKgpMIhBRERERERERE2BQQwiIiIiIiIiagoMYhARERERERFRU2AQg4iIiIiIiIiaAoMYRERERERERNQUGMQgIiIiIiIioqbAIAYRERERERERNQUGMYiIiGhdUrp70dut6BM7rLDtscKsTxEREdFV6ismk+lP8m8iIiKi9WHfKCZ2b8GmmxSk30/hmpYkZmFG300XEPjWAEJyMSIiIrq6sCUGERERrTue3W2Y9n2ATEsrWtMB9Lu9GDqZQGZrGzrkMkRERHT1YRCDiIiI1p3I08MYucMMBbOIHo1paUq3gtZMCnPaFBEREV2NGMQgIiKidWf2w1nYbrsBxj8kcUZLUeA0m5A9P4XQDgss7VoiERERXWUYxCAiIqJ1SIG1oxXp81HE1cl2F7pvzuCDUxF4H3OjV1uGiIiIrjYMYhAREdE65IBJySL53yNyOoNsNouv7hpF19zL8M/LZCIiIrqq8OkkREREtA4psPRsw4XTcSRlCtotsH7tAmJTCylERER0lWEQg4iIiIiIiIiaAruTEBEREREREVFTYBCDiIiIiIiIiJoCgxhERERERERE1BQYxCAiIiIiIiKipsCBPYmIiGhV+V6Pw36jnFBls8j+T/l3FYbNBvlXGR9Nwr7fv/hEEyIiItpQGMQgIiKi1dUzjPCPbFBa9MnsTBAOV6DOwIMZ1j1d6LrNCst/6UKnYpTpSUR+YMfQWTlJREREG0rLtdde+0/ybyIiIqKV95+nMK98C33ma6HGMVq+9n/gr66fxeSv5/X5NUlj/v/+PaZORxB+/RX89Def4y+6unDT/9aGa7d+hlBkVi5HREREGwnHxCAiIlpVZljvtECRU6uq3YLeHrOcWFux44MIzWTllAGm3R74euTkcnw4iaH7nBh6MwHjTge87TK9lB1WWHfIvzc4c49VnHFEREQbB4MYREREDad2dbCht7s4VGGF97UxeHYZ1mbMhnkDrN8PYOKIVSaspSQCRwOIfy4nDSbYnxiFXU4uTxKRo4MIvN8G60GLTCvB4YHHIf/e4ByHPLhKdpWIiK4SDGIQERE1jB3+cBzxeAijx4bh3l0YqnC+MCyWeAuDx2MyZbXFMPLYJL64YxjjB9akLUih+RAGfhZHRk6i1QpPwHmFrVSSCP1wCKNvX5TTREREtJEwiEFERNQwYXjtFoxNqdXyJObe1VM1e0fh7M4g+uOxtWmFkTMfgO/NJCwP+uCUSWvqxACGRH5yjN0u+K40wDIfx6nTHBODiIhoI2IQg4iIqKEs6FKflJG5gOmFJ2Qo8N5nRev5GALr4KkZyWejmGmxwDFSocvFKood9SM8lxsfwwjL90bh2ykniYiIiPIwiEFERNRI7bvRoTYk+HQWIT1FpLnQfTMwO+Vf21YYC4KIn89C6XRgnYQxMPLIBGYXxvk04a5HfVgPI3cQERHR+sIgBhER0RVSuu1wPzEM3/ftMO+5AdtEWmJ2Up+pumc7TEgi8Us5XcAMx6Pys3La/n0fhp9ww77MJ2jk8uM9oD8FxbzXCUdRy4bA+QtiQTPurvQUj9U0PwbvTxbHxzB02OF9ag3CGO0WvfwfdcKils0OO5z3rF2oR9nthu+YF045SKzS7YT32OKxJSIiutowiEFERLRsVnh+GkHYvx9mA9DW40HwfjMMSCM5tdjmwnmzqG5mLmB2XibksT/nh/PGTdj+33wIvjaO0K/G4Lh5E3C9Dd6XJup87Kg6MGYEkzI/yt88g2A4jOCREi0uEilkYETrHXJ6HUi+OoKgNp6ITrlzdQcgtR4aR+T1Z7BfLf/2u/HMT8MIv+SD4y/lAqut3QP/ISu2XKce1wCCAXEs/34X2rAJXfeLc+WKB0ElIiJqPgxiEBERLYsCZ2AYzs5LiBztx+DRIQw+FkbifxqAzCeYelMuJnS0qWNkfIGlQ0164OhMI+yOIpVVWx+0IfFjF5yeIQz9YBIfXDLB/j2PXLYamZ/bLiGal5/UVgWGgvE5pBNJpGBEm0lOl3PHMCZ+HUOsjtfESK/8cL2SCLmHcGoh/mOE5X4fnKvQWkQ5MI7hAxZcencI/Wr5ewYR/kMbFEMGF2bicimxXHcvrMtsIVMv2+G7YHx/DN6P1MCOgg6E4XEMwHvUC++ZJIxqq4w9+rKq1cwbERHRWmEQg4iIaDkeGoG724jsTBhDp2WaqHQbNou3/PEwcrIXsVgVlu41wfDxbxBs74bSKqbnYhh6O1eDN+KrLeLtOjMcekJl+3xw1ZMfadOfVekq8Z6o1P+1FdY6Xv2+U/LDyxGD99kwErnxMbZa4D7mXuEWB074HrTA+OUMwkcXH39r3GwALicxe0ImwAWf34/h71c6Igosd9pg21Pbq1LQoav1IqZPxvWWPEiLv4MLgbBtImtAK5TbtEmhlrwRERE1PwYxiIiIlsHT1wkDspidCsoUodR4GJX8YhD9bvH5Up/bY4aiBiAyaVGtr87zN6ISvoz8GI0d8q915PQIfvRmQuyNzmC2wtkpJ1bCYRssRiB7Po7F0rPjhuvE2/w5LJZeEGNHB+H+QaXja4PjYRdc99f2eug7Nvm5pfwP9GPobO5pN4Wte3b9hRrYyCD1n/p0bXkjIiJqfgxiEBER1c0J8/Xi7XICH7yop6icX+9YMh5GLRyd6ueSmFtohQFYekxQG2ek52I1PNFk+flJfVat0muGtUQLgkqvXjkI5ZWIPzmIid9ngWwC4X9wwj8jZ6wAvaUDkJgJaO+afZ3o2CzKf35qofzNPb3YIo7H0m5B+YLw3teP/hpfricj8nPl6E+7yc7N5LWmcePWPxdvaiuRV/WU2vJGRETU/BjEICIiWq7MxbwAQ/4dcwuG/3UCw7L1QDojKuNblTLdQiywtKufyx+3woK7zWrNNYHf/CJXydWDCRXHPCibH5mUb+cWbFLfL2tT5bV3oXunFdY6XpYdavuPK6Mc8MFuvoT4TwYxstA9ZiVlcDEv1mPp3AajSPtkSi1/Bc6xEP7+HjeeCQXh0hdZHQf11jQX5sL6tOohC8ybRY5F3sbWMm9ERERrgEEMIiKiukUx96l4a4EeCBCsRx6DVb2hn04itPNudG1KIiZbDyQ+zwDGLaXHdWjX77Sj5avQhjkQlINu9LVnkXh7DCMysGHzj2H02DBGnxxe+qSRSvkpNx7GzdeISnoayffldDnzkxg7OoShOl7+V5eM/lGfHh9Gv3crUm8OYeDV8q1IGiV6Xm5DHYNEJbb/2DdE4eXGw9jphs0QhWsuK8pssYxXg96aRmzTkAsMWeG/uxOGdBzBZ8SRXcO8ERERrQUGMYiIiOqWhP8nk5jFrXBOTmAiHMXwjVOYUB8Pet3tmDjWhQuv+5FrQxGZ+gSZljaY8p4ksUCOW5H5owJnRKxrMoLJfa344FUv+o8vjoaR/n8v6mNEtJuxW0vJVyI/u9q0ym+58TAst2yDsVwrjbXU40Xo2F3YcjaAwbz9X0nJZwOY/Ai49X5Rdq+HET1yO9rUgEZuPIzkGxj7cQTebjOyH/0GeZ1OVphsTfNlGpt2PYPw6xMIR/3o/mME/u8OIKQ+snfN8kZERLQ2vmIymf4k/yYiIqK6qF08TDB8No1TctwJc48Nyh8Xp3UuBH/tRuuZAdgfL2yl4AxE4enOInbUBv9nveja+gWm343ndQvJZ8Por1xI/U0/RmRKocX8tP1dCN6d+noHlwQq1O4u4+hLB2D9bt5AoGut3YnxoAfbPx6D0x0qUwYNcGQCE+hH/3E5LanHzrQpjenWBxF61ILs6SHYHpGhqHYfJv71diSPu/Dap0bEp1Zh9Altm3aYPgrBsj+iHVskIoh9KOfnVMibb3ICcJQ7X4iIiJoPW2IQEREt2yxib0YKAhazpwundUG8fCYJ5bb9sMsUXeG4FcmpU4iUDWAIO60wXZrF23JyqVx+tslxNsq0tOhxiO0mEfv5OgpgwArfc27c+nkYQysZwKhAPXZq+W/7uhwP4/3FQTctBy0wpc/h1GdueB6yytQVVvB0Gf3YLglgCGuSNyIiojXCIAYREdEqiD0+iXiLBY7D6kAVQrsFvfc6oI7fic+/QGqPFWZ9ThlmeA9ZkTkdQKURJ9TWBLaK61XgfrAbxvcnMboqA2bWQoEzMAz71g8QeGSkpkfKVrTXh/FjpYdRrWiHFbY9DjhuUQsvgy/SeQOp/vESstiC3Ye24dyJlQ/+qMfRu8sMg5qPz7sqP/FllfNGRES0lhjEICIiWhUhDBx/C4a9o/D1iMn/6oD72x24dD6BRLYDrnttJQbszLPTBuU/g/A+X6mNQi/s+1xwVVivcnAEDuUcgj9cm9YOS6kBjBA8N80hdFyO83BFrBh+8C5sydQfCum9ez9c9zvQ8UdRducvoeN+J2y36fPiT6qPQ30VP/sH1yo8LcUGx/0udG+6IPKRwjW7XHD0lH/iy+rmjYiIaG1xTAwiIqJVpNzjx+i3LyGwfwinZNqq+boXwScURB8ZbECwoDGsRybg3w289Q/9V14Bb7fB+7QXjj+fQ/CvXeUHuTw0jnEMYODHcnoD8wTGAfcAxuQ0ERFRs2MQg4iIiNaEcmAcoe9vx7l/dl7ho1TNsD/qxv49VpiMQPZ362zAUiIiImoYBjGIiIho1Sm7hzF6xIZNZwMIvFtnAOO6LlhNRmy6zoQORcG2rxlhUB+Jqskg/nwfBk7ISSIiItpQGMQgIiKi1dXjw8TTdpgMcrqR0jGM2AYRlpNERES0sTCIQURERKvKcSwIh/kaOdVYX8wE4Xpy8dGoREREtLEwiEFERERERERETYGPWCUiIiIiIiKipsAgBhERERERERE1BQYxiIiIiIiIiKgpMIhBREREa87c0wtLu5yomwLHPXb5NxEREW1kDGIQERHR2uochv85Px67X07Xaq8bw2NBhN8Jw3tvp0wkIiKijazl2muv/Sf5NxEREdHq+2wW58+dxmQoiYxMqknLJmz69Czm/vdv4K82J/DTyf+QM4iIiGijYksMIiIiWkMKLHeacPF0HEmZUrMPY4i8G5cTREREdDX4islk+pP8m4iIiGgVWeELuqFcboOlNY6B7wwhvsMKm8ko55eRTWP63cWghzMQhactCotjRKYQERHRRsWWGERERLQ2HtqP7ckxvKH2IWnZpKfd1AXrTmuVVydM+tJERER0lWFLDCIiIlobOyywfKFg/099ME0NwO5bXtcQtsQgIiK6ejCIQURERGtn3ziih7Yg4hjGqa9lEL/ejuFuRc4sI5tA5MkgYnKSQQwiIqKrB4MYREREtGZcP43BvTkMe7QDftPP4HzNwDExiIiIqCwGMYiIiGjNOF+Iwv21c5jNZhH9h0GE5uWMWjzkx8S3OrCl3YTWlgyScymkZ4JwPRmRCxAREdFGwyAGERERrSH5iNV3Y5iVKURERETlMIhBRERERERERE2Bj1glIiIiIiIioqbAIAYRERERERERNQUGMYiIiIiIiIioKTCIQURERERERERNgUEMIiIiIiIiImoKDGIQERERERERUVNgEIOIiIiIiIiImgKDGERERERERETUFBjEICIiIiIiIqKmwCAGERERERERETUFBjGIiIiIiIiIqCkwiEFERERERERETYFB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EaE1resKFJ/fe6E9DafawNqL33/ZTSSvlUUu2KDO0wIOjdqHEuecx5zSu7yUmLf0d7YDakOM/IGZiYho7XzFZDL9Sf5NREQrSW0VdHg7zj3PvtZERE1DbWWiBWlW5gYJERHVhy0xiIhWywn9aSSWb1fqDkJEROuHOl6KCZkyj94lIqLVxyAGEdEqGnGEkSjqm01EROuTb9IDC+IIVukmQ0REq4fdSYiIiIiIiIioKbAlBhERERERERE1BQYxiIiIiIiIiKgpMIhBRERERERERE2BQQwiIiIiIiIiagoMYhARERERERFRU2AQg4iIiIiIiIiaAoMYRERERERERNQUGMQgIiIiIiIioqbAIAYRERERERERNQUGMYiIiIiIiIioKTCIQURERERERERNgUEMIiIiIiIiImoKDGIQERERERERUVNgEIOIiIiIiIiImgKDGERERERERETUFBjEICIiIiIiIqKmwCAGERERERERETUFBjGIiIiIiIiIqCkwiEFERERERERETYFBDCIiIiKqmdJth+8pH2xymoiIaDUxiEFEREREtdnrhvuO3bDsVNAmk4iIiFYTgxhEREREVJuTAQw9m8QlOUlERLTaGMQgIiIiIiIioqbAIAYRERERERERNQUGMYiIiIiIiIioKbRce+21/yT/JiIiIiIqb68bww/+n9h+cxv+rP0vcO0fY5i+IOcRERGtgq+YTKY/yb+JiIiI6mbu6cWWuVOIz8sEWofMsN65BYl340jKFCIiombE7iRERES0bMqBcYw94RBVZFrf2tB78BkEn3NCkSnLEY/Hl7yIiIhWE1tiEBER0fL0+DDx9O1IPm3D4EmZRutXuxPjr7jR9p4X/cdjMpGIiKi5sCUGERER1U+tEB+xY9N/DC8rgKF096K3W7YJ2GGFbY+VrTlW2nwIIz/7AG17vBjukWlERERNhi0xiIiIqE4K3MFJuJQ4RmyDCMvUmu0bxcTuLdh0k4L0+ylc05LELMzou+kCAt8aQEguRivhCo8dERHRGmNLDCIiIqqLcsAHRycw82/+ZVWCPbvbMO37AJmWVrSmA+h3ezF0MoHM1jZ0yGVopSQRePEtJLZa4XrKKtNqp+x2w/eoAxb1/ZgXjh1yBhER0SphEIOIiIjqYId3vwXG+aioDC/vOReRp4cxcocZCmYRPaqPzaB0K2jNpDCnTdGK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" /></p>
+<hr class="docutils" />
+</section>
+<section id="menentukan-k-data-dengan-jarak-terdekat">
+<h1><strong>3. Menentukan k Data dengan Jarak Terdekat</strong><a class="headerlink" href="#menentukan-k-data-dengan-jarak-terdekat" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p>Setelah jarak antara data uji dan seluruh data dalam dataset dihitung, langkah selanjutnya adalah memilih <strong>k data dengan jarak terkecil</strong>.</p></li>
+<li><p>Data ini disebut sebagai <strong>tetangga terdekat (nearest neighbors)</strong> dari data uji.</p></li>
+</ul>
+<hr class="docutils" />
+</section>
+<section id="menentukan-prediksi-berdasarkan-k-tetangga-terdekat">
+<h1><strong>4. Menentukan Prediksi Berdasarkan k Tetangga Terdekat</strong><a class="headerlink" href="#menentukan-prediksi-berdasarkan-k-tetangga-terdekat" title="Link to this heading">#</a></h1>
+<p>Terdapat dua kemungkinan jenis prediksi yang dilakukan oleh KNN:</p>
+<p>-&gt; <strong>Untuk Klasifikasi:</strong></p>
+<ul class="simple">
+<li><p>KNN melihat <strong>mayoritas kelas</strong> dari k tetangga terdekat.</p></li>
+<li><p>Jika mayoritas dari k tetangga berada dalam satu kelas tertentu, maka data uji diklasifikasikan ke dalam kelas tersebut.</p></li>
+<li><p>Misalnya, jika dari 5 tetangga terdekat, 3 termasuk dalam kelas “A” dan 2 dalam kelas “B”, maka data uji diklasifikasikan sebagai kelas “A”.</p></li>
+</ul>
+<p>-&gt; <strong>Untuk Regresi:</strong></p>
+<ul class="simple">
+<li><p>KNN menghitung <strong>rata-rata nilai target</strong> dari k tetangga terdekat.</p></li>
+<li><p>Misalnya, jika k = 3 dan nilai target dari tiga tetangga adalah 50, 55, dan 60, maka nilai prediksi akan dihitung sebagai:<br />
+50 + 55 + 60 / 3 = 55</p></li>
+</ul>
+<hr class="docutils" />
+</section>
+<section id="menampilkan-hasil-prediksi">
+<h1><strong>5. Menampilkan Hasil Prediksi</strong><a class="headerlink" href="#menampilkan-hasil-prediksi" title="Link to this heading">#</a></h1>
+<p>Setelah prediksi ditentukan, algoritma KNN mengembalikan hasilnya, baik dalam bentuk kelas (jika klasifikasi) maupun dalam bentuk nilai numerik (jika regresi).</p>
+<hr class="docutils" />
+</section>
+<section id="contoh-ilustrasi-cara-kerja-knn-dalam-klasifikasi">
+<h1><strong>Contoh Ilustrasi Cara Kerja KNN dalam Klasifikasi</strong><a class="headerlink" href="#contoh-ilustrasi-cara-kerja-knn-dalam-klasifikasi" title="Link to this heading">#</a></h1>
+<p>Misalkan kita memiliki dataset dengan dua kelas: <strong>Biru</strong> dan <strong>Merah</strong>, serta sebuah titik data baru yang ingin diklasifikasikan.</p>
+<ol class="arabic simple">
+<li><p><strong>Menentukan nilai k</strong> → Misalnya, kita pilih <strong>k = 3</strong>.</p></li>
+<li><p><strong>Menghitung jarak</strong> antara titik data baru dan semua titik lainnya dalam dataset.</p></li>
+<li><p><strong>Memilih 3 titik terdekat</strong> → Misalkan 2 titik adalah <strong>Biru</strong> dan 1 titik adalah <strong>Merah</strong>.</p></li>
+<li><p><strong>Menentukan kelas mayoritas</strong> → Karena mayoritas dari 3 tetangga adalah <strong>Biru</strong>, maka titik data baru diklasifikasikan sebagai <strong>Biru</strong>.</p></li>
+</ol>
+<p>#<strong>Detection Outlier menggunakan Metode K-Nearest Neighbors (KNN)</strong></p>
+</section>
+<section id="deteksi-outliers-dengan-metode-k-nearest-neighbors-knn">
+<h1><strong>Deteksi Outliers dengan Metode K-Nearest Neighbors (KNN)</strong><a class="headerlink" href="#deteksi-outliers-dengan-metode-k-nearest-neighbors-knn" title="Link to this heading">#</a></h1>
+<p>Metode <strong>K-Nearest Neighbors (KNN)</strong> dapat digunakan untuk mendeteksi <strong>outliers</strong>, yaitu data yang memiliki perbedaan signifikan dibandingkan dengan sebagian besar data lainnya dalam suatu dataset. Dalam pendekatan ini, kita menentukan apakah suatu titik data adalah outlier dengan melihat <strong>jarak rata-rata</strong> antara titik tersebut dan k tetangga terdekatnya. Jika jarak rata-rata jauh lebih besar dibandingkan dengan data lainnya, maka titik tersebut dapat dianggap sebagai <strong>outlier</strong>.</p>
+<hr class="docutils" />
+</section>
+<section id="langkah-langkah-deteksi-outliers-dengan-knn">
+<h1><strong>Langkah-Langkah Deteksi Outliers dengan KNN</strong><a class="headerlink" href="#langkah-langkah-deteksi-outliers-dengan-knn" title="Link to this heading">#</a></h1>
+<ol class="arabic simple">
+<li><p><strong>Menentukan Nilai k (Jumlah Tetangga Terdekat)</strong></p>
+<ul class="simple">
+<li><p>Nilai <strong>k</strong> menentukan berapa banyak tetangga yang akan dipertimbangkan saat menganalisis suatu titik.</p></li>
+<li><p>Jika <strong>k terlalu kecil</strong>, metode ini menjadi lebih sensitif terhadap noise. Jika <strong>k terlalu besar</strong>, metode ini bisa gagal mendeteksi outliers dengan baik.</p></li>
+</ul>
+</li>
+<li><p><strong>Menghitung Jarak Setiap Titik ke Tetangga Terdekatnya</strong></p>
+<ul class="simple">
+<li><p>Untuk setiap titik dalam dataset, dihitung jaraknya ke semua titik lainnya.</p></li>
+<li><p>Jarak dapat dihitung menggunakan beberapa metode, seperti <strong>Euclidean Distance</strong> atau <strong>Manhattan Distance</strong>.</p></li>
+</ul>
+</li>
+<li><p><strong>Menghitung Rata-rata Jarak ke k Tetangga Terdekat</strong></p>
+<ul class="simple">
+<li><p>Setelah mendapatkan jarak ke semua titik, diambil <strong>k tetangga terdekat</strong> dan dihitung rata-rata jaraknya.</p></li>
+<li><p>Jika suatu titik memiliki rata-rata jarak yang jauh lebih besar dibandingkan dengan kebanyakan titik lainnya, kemungkinan besar titik tersebut adalah <strong>outlier</strong>.</p></li>
+</ul>
+</li>
+<li><p><strong>Menentukan Ambang Batas (Threshold) untuk Outlier</strong></p>
+<ul class="simple">
+<li><p>Untuk membedakan titik normal dan outlier, digunakan metode statistik seperti:</p>
+<ul>
+<li><p><strong>Persentil (Percentile Method)</strong> → Misalnya, titik dengan nilai rata-rata jarak dalam <strong>10% tertinggi</strong> dianggap sebagai outlier.</p></li>
+<li><p><strong>Z-score Method</strong> → Jika nilai rata-rata jarak suatu titik sangat jauh dari rata-rata dataset, maka titik tersebut diklasifikasikan sebagai outlier.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Menandai dan Menganalisis Outliers</strong></p>
+<ul class="simple">
+<li><p>Data yang melebihi threshold dianggap sebagai outlier dan perlu dianalisis lebih lanjut.</p></li>
+<li><p>Dalam beberapa kasus, outliers dapat dihapus atau diolah ulang tergantung pada kebutuhan analisis data.</p></li>
+</ul>
+</li>
+</ol>
+<hr class="docutils" />
+</section>
+<section id="contoh-ilustrasi">
+<h1><strong>Contoh Ilustrasi</strong><a class="headerlink" href="#contoh-ilustrasi" title="Link to this heading">#</a></h1>
+<p>Misalkan kita memiliki dataset dengan banyak titik data, dan kita ingin mencari outliers menggunakan KNN:</p>
+<ol class="arabic simple">
+<li><p>Kita menentukan <strong>k = 3</strong>, artinya kita akan mempertimbangkan <strong>3 tetangga terdekat</strong> dari setiap titik.</p></li>
+<li><p>Untuk setiap titik, kita menghitung jaraknya ke semua titik lainnya dan memilih <strong>3 tetangga terdekat</strong>.</p></li>
+<li><p>Jika rata-rata jarak suatu titik ke <strong>3 tetangga terdekatnya</strong> sangat besar dibandingkan dengan titik lainnya, maka titik tersebut adalah <strong>outlier</strong>.</p></li>
+</ol>
+<p>Contohnya, jika sebagian besar data memiliki jarak rata-rata ke tetangganya sekitar <strong>5-10 unit</strong>, tetapi ada satu titik dengan rata-rata jarak <strong>50 unit</strong>, maka titik tersebut kemungkinan besar adalah <strong>outlier</strong>.</p>
+<p>#<strong>Contoh Penerapan Deteksi Ouliers menggunakan Metode K-Nearest Neighbors (KNN)</strong></p>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="data_understanding.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">&lt;no title&gt;</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#"><strong>Cara Kerja K-Nearest Neighbors (KNN) Secara Detail</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#menentukan-nilai-k-jumlah-tetangga-terdekat"><strong>1. Menentukan Nilai k (Jumlah Tetangga Terdekat)</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-jarak-antara-data-baru-dengan-semua-data-dalam-dataset"><strong>2. Menghitung Jarak Antara Data Baru dengan Semua Data dalam Dataset</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#menentukan-k-data-dengan-jarak-terdekat"><strong>3. Menentukan k Data dengan Jarak Terdekat</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#menentukan-prediksi-berdasarkan-k-tetangga-terdekat"><strong>4. Menentukan Prediksi Berdasarkan k Tetangga Terdekat</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#menampilkan-hasil-prediksi"><strong>5. Menampilkan Hasil Prediksi</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#contoh-ilustrasi-cara-kerja-knn-dalam-klasifikasi"><strong>Contoh Ilustrasi Cara Kerja KNN dalam Klasifikasi</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#deteksi-outliers-dengan-metode-k-nearest-neighbors-knn"><strong>Deteksi Outliers dengan Metode K-Nearest Neighbors (KNN)</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-langkah-deteksi-outliers-dengan-knn"><strong>Langkah-Langkah Deteksi Outliers dengan KNN</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#contoh-ilustrasi"><strong>Contoh Ilustrasi</strong></a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
