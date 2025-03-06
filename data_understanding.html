@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>&lt;no title&gt; &#8212; My sample book</title>
+    <title>Data Understanding &#8212; My sample book</title>
   
   
   
@@ -60,7 +60,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'data_understanding';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Cara Kerja K-Nearest Neighbors (KNN) Secara Detail" href="outlier_detection.html" />
+    <link rel="next" title="Outliers Detection Menggunakan Metode K-Nearest Neighbors (KNN)" href="outlier_detection.html" />
     <link rel="prev" title="Welcome to Penambangan Data" href="intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -179,11 +179,15 @@
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="outlier_detection.html"><strong>Cara Kerja K-Nearest Neighbors (KNN) Secara Detail</strong></a></li>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><strong>Data Understanding</strong></a></li>
 
 
 
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="outlier_detection.html"><strong>Outliers Detection Menggunakan Metode K-Nearest Neighbors (KNN)</strong></a></li>
 
 
 
@@ -375,7 +379,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1><no title></h1>
+    <h1>Data Understanding</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -384,7 +388,25 @@ document.write(`
                 <h2> Contents </h2>
             </div>
             <nav aria-label="Page">
-                <ul class="simple visible nav section-nav flex-column">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#"><strong>Data Understanding</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#apa-itu-data-understanding"><strong>Apa itu Data Understanding…?</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#macam-macam-tipe-data"><strong>Macam-Macam Tipe Data!!!</strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagaimana-data-understanding-dalam-data-mining"><strong>Bagaimana Data Understanding dalam Data Mining…?</strong></a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#tujuan-data-understanding"><strong>Tujuan Data Understanding!!!</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-langkah-data-understanding"><strong>Langkah langkah Data Understanding!!!</strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pengumpulan-data"><strong>1. Pengumpulan Data</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-data"><strong>2. Sampling Data</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#profiling-data"><strong>3. Profiling Data</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#korelasi-dan-asosiasi"><strong>5. Korelasi dan Asosiasi</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eksplorasi-data"><strong>6. Eksplorasi Data</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-data"><strong>7. Visualisasi Data</strong></a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#identifikasi-masalah-data"><strong>8. Identifikasi Masalah Data</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#validasi-data"><strong>9. Validasi Data</strong></a></li>
 </ul>
 
             </nav>
@@ -397,21 +419,38 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <p>#<strong>Data Understanding</strong></p>
-<p>#<strong>Apa itu Data Understanding…?</strong>
-Data Understanding adalah tahap awal dalam proses analisis data yang bertujuan untuk memahami karakteristik, struktur, dan kualitas data sebelum digunakan lebih lanjut. Pada tahap ini, data dikumpulkan dari berbagai sumber, kemudian dieksplorasi untuk mengetahui jumlah, tipe, serta distribusi nilai dalam setiap variabel. Evaluasi kualitas data juga dilakukan untuk mengidentifikasi masalah seperti data yang hilang, duplikasi, atau inkonsistensi yang dapat memengaruhi hasil analisis. Selain itu, dengan melakukan visualisasi dan analisis statistik dasar, kita dapat menemukan pola awal dan hubungan antarvariabel yang membantu dalam membentuk hipotesis atau asumsi yang dapat diuji lebih lanjut. Misalnya, dalam analisis harga rumah, memahami bagaimana faktor seperti lokasi, luas bangunan, dan jumlah kamar tidur memengaruhi harga dapat memberikan wawasan yang berguna sebelum membangun model prediktif. Dengan pemahaman data yang baik, proses analisis menjadi lebih akurat dan menghasilkan kesimpulan yang lebih terpercaya.</p>
-<p>#<strong>Macam-Macam Tipe Data!!!</strong></p>
+  <section class="tex2jax_ignore mathjax_ignore" id="data-understanding">
+<h1><strong>Data Understanding</strong><a class="headerlink" href="#data-understanding" title="Link to this heading">#</a></h1>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="apa-itu-data-understanding">
+<h1><strong>Apa itu Data Understanding…?</strong><a class="headerlink" href="#apa-itu-data-understanding" title="Link to this heading">#</a></h1>
+<p>Data Understanding adalah tahap awal dalam proses analisis data yang bertujuan untuk memahami karakteristik, struktur, dan kualitas data sebelum digunakan lebih lanjut. Pada tahap ini, data dikumpulkan dari berbagai sumber, kemudian dieksplorasi untuk mengetahui jumlah, tipe, serta distribusi nilai dalam setiap variabel. Evaluasi kualitas data juga dilakukan untuk mengidentifikasi masalah seperti data yang hilang, duplikasi, atau inkonsistensi yang dapat memengaruhi hasil analisis. Selain itu, dengan melakukan visualisasi dan analisis statistik dasar, kita dapat menemukan pola awal dan hubungan antarvariabel yang membantu dalam membentuk hipotesis atau asumsi yang dapat diuji lebih lanjut. Misalnya, dalam analisis harga rumah, memahami bagaimana faktor seperti lokasi, luas bangunan, dan jumlah kamar tidur memengaruhi harga dapat memberikan wawasan yang berguna sebelum membangun model prediktif. Dengan pemahaman data yang baik, proses analisis menjadi lebih akurat dan menghasilkan kesimpulan yang lebih terpercaya.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="macam-macam-tipe-data">
+<h1><strong>Macam-Macam Tipe Data!!!</strong><a class="headerlink" href="#macam-macam-tipe-data" title="Link to this heading">#</a></h1>
 <ol class="arabic simple">
 <li><p>Numerical Data adalah data yang berupa angka dan dapat dihitung. Contoh: Usia, pendapatan.</p></li>
 <li><p>Categorical Data adalah data yang menggambarkan kategori atau kelompok. Contoh: jenis kelamin, kategori produk.</p></li>
 <li><p>Ordinal Data adalah data yang memiliki urutan atau tingkatan. Contoh: tingkat pendidikan</p></li>
 </ol>
-<p>##<strong>Bagaimana Data Understanding dalam Data Mining…?</strong>
-Data Understanding dalam Data Mining merupakan tahap awal yang bertujuan untuk memahami karakteristik data sebelum dilakukan analisis lebih lanjut. Langkah ini mencakup pengumpulan data dari berbagai sumber, deskripsi data untuk mengetahui tipe dan jumlah data yang tersedia, serta eksplorasi data melalui teknik statistik dan visualisasi guna mengidentifikasi pola, distribusi, dan potensi anomali seperti outlier. Selain itu, tahap ini juga melibatkan verifikasi kualitas data, termasuk menangani nilai yang hilang, duplikasi, serta inkonsistensi yang dapat memengaruhi hasil analisis. Beberapa teknik yang umum digunakan dalam proses ini meliputi statistik deskriptif, analisis korelasi, dan berbagai metode visualisasi seperti histogram, scatter plot, serta heatmap. Pemahaman yang baik terhadap data pada tahap ini sangat penting karena akan memengaruhi kualitas model yang dibangun di tahap selanjutnya, seperti preprocessing dan modeling. Dengan demikian, Data Understanding menjadi fondasi utama dalam proses Knowledge Discovery in Databases (KDD) untuk memastikan analisis yang akurat dan efektif.</p>
-<p>#<strong>Tujuan Data Understanding!!!</strong>
-Tujuan dari Data Understanding adalah untuk memastikan bahwa data yang digunakan dalam analisis atau pembuatan model memiliki kualitas yang baik, relevan, dan sesuai dengan tujuan yang ingin dicapai. Tahap ini bertujuan untuk memahami sumber data, termasuk asal-usul dan cara pengumpulannya, sehingga dapat diketahui keandalan serta struktur data yang tersedia. Selain itu, evaluasi kualitas data dilakukan untuk mengidentifikasi apakah terdapat kesalahan, data yang hilang, duplikasi, atau inkonsistensi yang dapat mempengaruhi hasil analisis. Melalui eksplorasi data, pola awal, tren, dan hubungan antarvariabel dapat ditemukan sehingga memberikan wawasan yang berguna dalam pengambilan keputusan. Dengan memahami data secara mendalam, proses analisis dan pengolahan data menjadi lebih akurat, efisien, dan menghasilkan kesimpulan yang lebih terpercaya.</p>
-<p>#<strong>Langkah langkah Data Understanding!!!</strong>
-Untuk melakukan data undersatnding ada beberapa tahapan tahapan yang harus dilakukan :</p>
+<p>Berikut lebih jelasnya :
+Tipe-tipe data dalam data understanding dapat diklasifikasikan berdasarkan beberapa aspek, yaitu sifatnya, skala pengukuran, bentuknya, dan sumbernya.</p>
+<p>Berdasarkan sifatnya, data dapat dibagi menjadi dua jenis utama. Data numerik merupakan data yang berbentuk angka dan dapat dihitung atau diukur, seperti usia atau pendapatan seseorang. Sementara itu, data kategorikal atau kualitatif adalah data yang berbentuk kategori atau label, misalnya jenis kelamin atau warna mata.</p>
+<p>Berdasarkan skala pengukurannya, data dapat dikategorikan menjadi empat jenis. Data nominal merupakan data dalam bentuk kategori tanpa adanya urutan tertentu, seperti warna atau jenis kelamin. Data ordinal memiliki kategori yang memiliki urutan, tetapi perbedaan antar kategorinya tidak memiliki jarak yang pasti, contohnya tingkat pendidikan atau tingkat kepuasan pelanggan. Data interval adalah data numerik dengan jarak tetap antara nilai, tetapi tidak memiliki nol absolut, seperti suhu dalam satuan Celsius atau Fahrenheit. Terakhir, data rasio adalah data numerik yang memiliki nol absolut, sehingga memungkinkan perbandingan rasio, seperti berat badan atau pendapatan seseorang.</p>
+<p>Berdasarkan bentuknya, data dapat diklasifikasikan menjadi data diskrit dan data kontinu. Data diskrit adalah data yang hanya memiliki nilai tertentu dan tidak dapat dibagi menjadi pecahan, seperti jumlah anak dalam sebuah keluarga atau jumlah mobil yang dimiliki seseorang. Di sisi lain, data kontinu adalah data yang dapat memiliki nilai dalam rentang tertentu, termasuk nilai pecahan, seperti tinggi badan atau waktu perjalanan.</p>
+<p>Berdasarkan sumbernya, data dibagi menjadi data primer dan data sekunder. Data primer adalah data yang dikumpulkan langsung dari sumbernya, misalnya melalui survei, wawancara, atau eksperimen. Sebaliknya, data sekunder adalah data yang diperoleh dari sumber yang sudah ada sebelumnya, seperti laporan penelitian, database perusahaan, atau publikasi resmi.</p>
+<section id="bagaimana-data-understanding-dalam-data-mining">
+<h2><strong>Bagaimana Data Understanding dalam Data Mining…?</strong><a class="headerlink" href="#bagaimana-data-understanding-dalam-data-mining" title="Link to this heading">#</a></h2>
+<p>Data Understanding dalam Data Mining merupakan tahap awal yang bertujuan untuk memahami karakteristik data sebelum dilakukan analisis lebih lanjut. Langkah ini mencakup pengumpulan data dari berbagai sumber, deskripsi data untuk mengetahui tipe dan jumlah data yang tersedia, serta eksplorasi data melalui teknik statistik dan visualisasi guna mengidentifikasi pola, distribusi, dan potensi anomali seperti outlier. Selain itu, tahap ini juga melibatkan verifikasi kualitas data, termasuk menangani nilai yang hilang, duplikasi, serta inkonsistensi yang dapat memengaruhi hasil analisis. Beberapa teknik yang umum digunakan dalam proses ini meliputi statistik deskriptif, analisis korelasi, dan berbagai metode visualisasi seperti histogram, scatter plot, serta heatmap. Pemahaman yang baik terhadap data pada tahap ini sangat penting karena akan memengaruhi kualitas model yang dibangun di tahap selanjutnya, seperti preprocessing dan modeling. Dengan demikian, Data Understanding menjadi fondasi utama dalam proses Knowledge Discovery in Databases (KDD) untuk memastikan analisis yang akurat dan efektif.</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="tujuan-data-understanding">
+<h1><strong>Tujuan Data Understanding!!!</strong><a class="headerlink" href="#tujuan-data-understanding" title="Link to this heading">#</a></h1>
+<p>Tujuan dari Data Understanding adalah untuk memastikan bahwa data yang digunakan dalam analisis atau pembuatan model memiliki kualitas yang baik, relevan, dan sesuai dengan tujuan yang ingin dicapai. Tahap ini bertujuan untuk memahami sumber data, termasuk asal-usul dan cara pengumpulannya, sehingga dapat diketahui keandalan serta struktur data yang tersedia. Selain itu, evaluasi kualitas data dilakukan untuk mengidentifikasi apakah terdapat kesalahan, data yang hilang, duplikasi, atau inkonsistensi yang dapat mempengaruhi hasil analisis. Melalui eksplorasi data, pola awal, tren, dan hubungan antarvariabel dapat ditemukan sehingga memberikan wawasan yang berguna dalam pengambilan keputusan. Dengan memahami data secara mendalam, proses analisis dan pengolahan data menjadi lebih akurat, efisien, dan menghasilkan kesimpulan yang lebih terpercaya.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="langkah-langkah-data-understanding">
+<h1><strong>Langkah langkah Data Understanding!!!</strong><a class="headerlink" href="#langkah-langkah-data-understanding" title="Link to this heading">#</a></h1>
+<p>Untuk melakukan data undersatnding ada beberapa tahapan tahapan yang harus dilakukan :</p>
 <ol class="arabic simple">
 <li><p>Pengumpulan Data</p></li>
 <li><p>Sampling</p></li>
@@ -421,8 +460,9 @@ Untuk melakukan data undersatnding ada beberapa tahapan tahapan yang harus dilak
 <li><p>Identifikasi Malasah</p></li>
 <li><p>Validasi Data</p></li>
 </ol>
-<p>##<strong>1. Pengumpulan Data</strong>
-Langkah-langkah pengumpulan data dalam Data Understanding dimulai dengan identifikasi sumber data, di mana data dapat berasal dari berbagai sumber seperti database, file CSV, API, sensor, media sosial, atau hasil survei. Setelah itu, dilakukan ekstraksi data, yaitu proses mengambil data dari sumber yang telah ditentukan dengan menggunakan metode yang sesuai, seperti query SQL untuk database atau web scraping untuk data dari internet. Langkah berikutnya adalah integrasi data, yang bertujuan untuk menggabungkan data dari berbagai sumber agar lebih mudah dianalisis. Setelah data terkumpul, dilakukan validasi awal untuk memastikan bahwa data yang diperoleh memiliki format yang benar, tidak ada duplikasi, dan sesuai dengan kebutuhan analisis. Terakhir, data yang telah dikumpulkan disimpan dalam format yang sesuai, seperti tabel dalam database atau file dalam format CSV/Excel, sehingga siap untuk tahap eksplorasi lebih lanjut. Dengan mengikuti langkah-langkah ini, proses Data Understanding dapat dilakukan dengan lebih sistematis dan memastikan bahwa data yang digunakan berkualitas serta relevan dengan tujuan analisis.
+<section id="pengumpulan-data">
+<h2><strong>1. Pengumpulan Data</strong><a class="headerlink" href="#pengumpulan-data" title="Link to this heading">#</a></h2>
+<p>Langkah-langkah pengumpulan data dalam Data Understanding dimulai dengan identifikasi sumber data, di mana data dapat berasal dari berbagai sumber seperti database, file CSV, API, sensor, media sosial, atau hasil survei. Setelah itu, dilakukan ekstraksi data, yaitu proses mengambil data dari sumber yang telah ditentukan dengan menggunakan metode yang sesuai, seperti query SQL untuk database atau web scraping untuk data dari internet. Langkah berikutnya adalah integrasi data, yang bertujuan untuk menggabungkan data dari berbagai sumber agar lebih mudah dianalisis. Setelah data terkumpul, dilakukan validasi awal untuk memastikan bahwa data yang diperoleh memiliki format yang benar, tidak ada duplikasi, dan sesuai dengan kebutuhan analisis. Terakhir, data yang telah dikumpulkan disimpan dalam format yang sesuai, seperti tabel dalam database atau file dalam format CSV/Excel, sehingga siap untuk tahap eksplorasi lebih lanjut. Dengan mengikuti langkah-langkah ini, proses Data Understanding dapat dilakukan dengan lebih sistematis dan memastikan bahwa data yang digunakan berkualitas serta relevan dengan tujuan analisis.
 Berikut adalah langkah-langkah nya.</p>
 <p>1.1 Mengimport library untuk digunakan didalam proses-proses selanjutnya</p>
 <div class="cell docutils container">
@@ -437,7 +477,9 @@ Berikut adalah langkah-langkah nya.</p>
   Downloading PyMySQL-1.1.1-py3-none-any.whl.metadata (4.4 kB)
 Downloading PyMySQL-1.1.1-py3-none-any.whl (44 kB)
 ?25l   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">0.0/45.0 kB</span> <span class=" -Color -Color-Red">?</span> eta <span class=" -Color -Color-Cyan">-:--:--</span>
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">45.0/45.0 kB</span> <span class=" -Color -Color-Red">1.5 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">45.0/45.0 kB</span> <span class=" -Color -Color-Red">1.7 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
 ?25h
 </pre></div>
 </div>
@@ -877,11 +919,15 @@ Successfully installed pymysql-1.1.1
 </div>
 </div>
 </div>
-<p>##<strong>2. Sampling Data</strong>
-Sampling data dalam Data Understanding adalah teknik yang digunakan untuk mengambil sebagian data dari keseluruhan dataset guna mewakili karakteristik populasi secara akurat. Sampling dilakukan karena dalam banyak kasus, jumlah data yang sangat besar membuat analisis langsung terhadap seluruh dataset menjadi tidak efisien dan memakan banyak sumber daya. Dengan melakukan sampling, analisis awal dapat dilakukan lebih cepat tanpa kehilangan informasi penting dari data. Terdapat beberapa metode sampling yang umum digunakan, di antaranya random sampling, di mana setiap data memiliki peluang yang sama untuk dipilih; stratified sampling, yang membagi data ke dalam kelompok-kelompok (strata) dan mengambil sampel dari setiap kelompok secara proporsional; serta systematic sampling, yang memilih data dengan pola tertentu, misalnya setiap data ke-10 dari dataset. Selain itu, ada juga cluster sampling, yang membagi data menjadi beberapa kelompok dan mengambil sampel dari kelompok tertentu secara acak.</p>
+</section>
+<section id="sampling-data">
+<h2><strong>2. Sampling Data</strong><a class="headerlink" href="#sampling-data" title="Link to this heading">#</a></h2>
+<p>Sampling data dalam Data Understanding adalah teknik yang digunakan untuk mengambil sebagian data dari keseluruhan dataset guna mewakili karakteristik populasi secara akurat. Sampling dilakukan karena dalam banyak kasus, jumlah data yang sangat besar membuat analisis langsung terhadap seluruh dataset menjadi tidak efisien dan memakan banyak sumber daya. Dengan melakukan sampling, analisis awal dapat dilakukan lebih cepat tanpa kehilangan informasi penting dari data. Terdapat beberapa metode sampling yang umum digunakan, di antaranya random sampling, di mana setiap data memiliki peluang yang sama untuk dipilih; stratified sampling, yang membagi data ke dalam kelompok-kelompok (strata) dan mengambil sampel dari setiap kelompok secara proporsional; serta systematic sampling, yang memilih data dengan pola tertentu, misalnya setiap data ke-10 dari dataset. Selain itu, ada juga cluster sampling, yang membagi data menjadi beberapa kelompok dan mengambil sampel dari kelompok tertentu secara acak.</p>
 <p>Sampling dalam Data Understanding bertujuan untuk menghemat waktu dan sumber daya, namun tetap mempertahankan representasi yang baik dari keseluruhan dataset. Dengan menggunakan teknik sampling yang tepat, proses eksplorasi data dapat dilakukan dengan lebih efisien, memungkinkan deteksi awal pola, anomali, serta potensi masalah dalam data sebelum masuk ke tahap pemrosesan lebih lanjut. Nah pada tahap ini sampling data yang saya gunakan dengan mengelompokkan data berdasarkan kelasnya dengan warna yang berbeda yaitu Iris-sentosa berwarna biru Iris-versicolor berwarna merah dan Iris-virginica berwarna hijau hal ini bertujuan untuk memudahkan untuk melakukan visualisasi.</p>
-<p>##<strong>3. Profiling Data</strong>
-Profiling data dalam Data Understanding adalah proses menganalisis dan mengidentifikasi karakteristik dari data untuk memahami struktur, kualitas, serta pola yang terkandung di dalamnya. Tujuan utama dari data profiling adalah untuk mendeteksi ketidakkonsistenan, nilai yang hilang, duplikasi, serta memahami distribusi data yang ada. Dengan melakukan profiling, peneliti atau analis dapat mengevaluasi apakah data yang tersedia memenuhi syarat untuk digunakan dalam analisis lebih lanjut atau memerlukan pembersihan dan transformasi tambahan. Proses data profiling melibatkan beberapa langkah utama. Pertama, analisis struktur data, yaitu pemeriksaan atribut, tipe data, serta format yang digunakan. Kedua, analisis konten data, yang mencakup pengecekan statistik deskriptif seperti mean, median, modus, distribusi nilai, serta outlier yang ada dalam dataset. Ketiga, analisis hubungan antar-data, di mana dilakukan evaluasi korelasi antar variabel, deteksi duplikasi, serta identifikasi anomali atau inkonsistensi dalam data.</p>
+</section>
+<section id="profiling-data">
+<h2><strong>3. Profiling Data</strong><a class="headerlink" href="#profiling-data" title="Link to this heading">#</a></h2>
+<p>Profiling data dalam Data Understanding adalah proses menganalisis dan mengidentifikasi karakteristik dari data untuk memahami struktur, kualitas, serta pola yang terkandung di dalamnya. Tujuan utama dari data profiling adalah untuk mendeteksi ketidakkonsistenan, nilai yang hilang, duplikasi, serta memahami distribusi data yang ada. Dengan melakukan profiling, peneliti atau analis dapat mengevaluasi apakah data yang tersedia memenuhi syarat untuk digunakan dalam analisis lebih lanjut atau memerlukan pembersihan dan transformasi tambahan. Proses data profiling melibatkan beberapa langkah utama. Pertama, analisis struktur data, yaitu pemeriksaan atribut, tipe data, serta format yang digunakan. Kedua, analisis konten data, yang mencakup pengecekan statistik deskriptif seperti mean, median, modus, distribusi nilai, serta outlier yang ada dalam dataset. Ketiga, analisis hubungan antar-data, di mana dilakukan evaluasi korelasi antar variabel, deteksi duplikasi, serta identifikasi anomali atau inkonsistensi dalam data.</p>
 <p>Dengan melakukan data profiling, organisasi atau analis data dapat lebih mudah mengidentifikasi potensi permasalahan yang dapat mempengaruhi kualitas hasil analisis. Selain itu, tahap ini juga membantu dalam proses pengambilan keputusan terkait strategi preprocessing data yang harus dilakukan sebelum masuk ke tahap pemodelan dalam Data Mining. Profiling data menjadi langkah penting dalam memastikan bahwa data yang digunakan bersih, valid, dan siap untuk menghasilkan insight yang akurat.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -981,11 +1027,17 @@ Profiling data dalam Data Understanding adalah proses menganalisis dan mengident
 </div>
 </div>
 </div>
-<p>##<strong>5. Korelasi dan Asosiasi</strong>
-Dalam Data Understanding, korelasi dan asosiasi merupakan dua konsep penting yang digunakan untuk menganalisis hubungan antar variabel dalam suatu dataset. Korelasi mengukur sejauh mana dua variabel numerik memiliki hubungan linear, yang biasanya dinyatakan dengan koefisien korelasi Pearson (r). Jika nilai korelasi positif, berarti kedua variabel bergerak searah, sedangkan korelasi negatif menunjukkan hubungan berlawanan, dan nilai nol menandakan tidak adanya hubungan linear. Selain Pearson, terdapat juga korelasi Spearman dan Kendall yang digunakan untuk hubungan non-linear. Di sisi lain, asosiasi lebih berfokus pada hubungan antara item dalam dataset, terutama dalam market basket analysis atau analisis pola transaksi. Teknik Association Rule Mining, seperti algoritma Apriori dan FP-Growth, digunakan untuk menemukan pola dengan mengukur metrik seperti support, confidence, dan lift, yang menentukan seberapa kuat hubungan antara item dalam data. Misalnya, jika pelanggan membeli roti, ada kemungkinan besar mereka juga membeli selai. Meskipun keduanya bertujuan untuk menemukan hubungan dalam data, korelasi lebih relevan untuk variabel numerik dengan hubungan linear, sedangkan asosiasi lebih sering digunakan untuk menemukan pola dalam data kategorikal atau transaksi. Memahami kedua konsep ini sangat penting dalam eksplorasi data agar analisis yang dilakukan lebih akurat dan bermanfaat untuk pengambilan keputusan berbasis data.</p>
-<p>##<strong>6. Eksplorasi Data</strong>
-Dalam Data Understanding, korelasi mengukur hubungan linear antara dua variabel numerik, sedangkan asosiasi menemukan pola hubungan antar item dalam data kategorikal atau transaksi. Korelasi menggunakan koefisien Pearson untuk menentukan kekuatan dan arah hubungan, sementara asosiasi menggunakan Association Rule Mining dengan metrik seperti support, confidence, dan lift untuk menemukan pola dalam data, seperti dalam market basket analysis. Eksplorasi data merupakan proses awal dalam analisis data untuk memahami karakteristik, distribusi, dan pola dalam dataset yang ada dan akan menghasilkan deskripsi statistik seperti mean, median, modus, standar deviasi,minimum, dan maximum dengan menggunakan visualisasi data bisa dalam bentuk grafik histogram scatter plot untuk melihat pola atau trend awalnya.</p>
-<p>##<strong>7. Visualisasi Data</strong></p>
+</section>
+<section id="korelasi-dan-asosiasi">
+<h2><strong>5. Korelasi dan Asosiasi</strong><a class="headerlink" href="#korelasi-dan-asosiasi" title="Link to this heading">#</a></h2>
+<p>Dalam Data Understanding, korelasi dan asosiasi merupakan dua konsep penting yang digunakan untuk menganalisis hubungan antar variabel dalam suatu dataset. Korelasi mengukur sejauh mana dua variabel numerik memiliki hubungan linear, yang biasanya dinyatakan dengan koefisien korelasi Pearson (r). Jika nilai korelasi positif, berarti kedua variabel bergerak searah, sedangkan korelasi negatif menunjukkan hubungan berlawanan, dan nilai nol menandakan tidak adanya hubungan linear. Selain Pearson, terdapat juga korelasi Spearman dan Kendall yang digunakan untuk hubungan non-linear. Di sisi lain, asosiasi lebih berfokus pada hubungan antara item dalam dataset, terutama dalam market basket analysis atau analisis pola transaksi. Teknik Association Rule Mining, seperti algoritma Apriori dan FP-Growth, digunakan untuk menemukan pola dengan mengukur metrik seperti support, confidence, dan lift, yang menentukan seberapa kuat hubungan antara item dalam data. Misalnya, jika pelanggan membeli roti, ada kemungkinan besar mereka juga membeli selai. Meskipun keduanya bertujuan untuk menemukan hubungan dalam data, korelasi lebih relevan untuk variabel numerik dengan hubungan linear, sedangkan asosiasi lebih sering digunakan untuk menemukan pola dalam data kategorikal atau transaksi. Memahami kedua konsep ini sangat penting dalam eksplorasi data agar analisis yang dilakukan lebih akurat dan bermanfaat untuk pengambilan keputusan berbasis data.</p>
+</section>
+<section id="eksplorasi-data">
+<h2><strong>6. Eksplorasi Data</strong><a class="headerlink" href="#eksplorasi-data" title="Link to this heading">#</a></h2>
+<p>Dalam Data Understanding, korelasi mengukur hubungan linear antara dua variabel numerik, sedangkan asosiasi menemukan pola hubungan antar item dalam data kategorikal atau transaksi. Korelasi menggunakan koefisien Pearson untuk menentukan kekuatan dan arah hubungan, sementara asosiasi menggunakan Association Rule Mining dengan metrik seperti support, confidence, dan lift untuk menemukan pola dalam data, seperti dalam market basket analysis. Eksplorasi data merupakan proses awal dalam analisis data untuk memahami karakteristik, distribusi, dan pola dalam dataset yang ada dan akan menghasilkan deskripsi statistik seperti mean, median, modus, standar deviasi,minimum, dan maximum dengan menggunakan visualisasi data bisa dalam bentuk grafik histogram scatter plot untuk melihat pola atau trend awalnya.</p>
+</section>
+<section id="visualisasi-data">
+<h2><strong>7. Visualisasi Data</strong><a class="headerlink" href="#visualisasi-data" title="Link to this heading">#</a></h2>
 <p><strong>7.1 Bar Chart</strong></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1300,8 +1352,11 @@ Dalam Data Understanding, korelasi mengukur hubungan linear antara dua variabel 
 <img alt="_images/75f4bb4a74a6248e282ff8efa3a10aae4ae9c3279cc73deff36354b79fd1a499.png" src="_images/75f4bb4a74a6248e282ff8efa3a10aae4ae9c3279cc73deff36354b79fd1a499.png" />
 </div>
 </div>
-<p>#<strong>8. Identifikasi Masalah Data</strong>
-Identifikasi Masalah dalam Eksplorasi Data: Deteksi Outlier pada Data Iris Sebelum melakukan eksplorasi data, langkah pertama yang harus dilakukan adalah Identifikasi Masalah. Proses ini bertujuan untuk memahami permasalahan dalam dataset dan menentukan langkah-langkah yang diperlukan agar analisis lebih akurat dan efisien. Salah satu aspek penting dalam identifikasi masalah adalah mendeteksi outlier, yaitu data yang menyimpang secara signifikan dari sebagian besar data lainnya. Outlier dapat disebabkan oleh kesalahan pengukuran, pencatatan, atau memang merupakan fenomena khusus yang perlu dianalisis lebih lanjut. Dalam konteks dataset Iris, kita dapat menggunakan teknik visualisasi seperti boxplot untuk mengidentifikasi outlier dalam variabel numerik, seperti sepal length, sepal width, petal length, dan petal width. Outlier ditandai sebagai titik-titik yang berada jauh dari rentang normal data. Dengan mendeteksi dan menangani outlier, kita dapat memastikan bahwa data yang digunakan dalam analisis lebih bersih, sehingga hasil eksplorasi data dan model prediksi yang dibuat nantinya menjadi lebih akurat dan efisien.</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="identifikasi-masalah-data">
+<h1><strong>8. Identifikasi Masalah Data</strong><a class="headerlink" href="#identifikasi-masalah-data" title="Link to this heading">#</a></h1>
+<p>Identifikasi Masalah dalam Eksplorasi Data: Deteksi Outlier pada Data Iris Sebelum melakukan eksplorasi data, langkah pertama yang harus dilakukan adalah Identifikasi Masalah. Proses ini bertujuan untuk memahami permasalahan dalam dataset dan menentukan langkah-langkah yang diperlukan agar analisis lebih akurat dan efisien. Salah satu aspek penting dalam identifikasi masalah adalah mendeteksi outlier, yaitu data yang menyimpang secara signifikan dari sebagian besar data lainnya. Outlier dapat disebabkan oleh kesalahan pengukuran, pencatatan, atau memang merupakan fenomena khusus yang perlu dianalisis lebih lanjut. Dalam konteks dataset Iris, kita dapat menggunakan teknik visualisasi seperti boxplot untuk mengidentifikasi outlier dalam variabel numerik, seperti sepal length, sepal width, petal length, dan petal width. Outlier ditandai sebagai titik-titik yang berada jauh dari rentang normal data. Dengan mendeteksi dan menangani outlier, kita dapat memastikan bahwa data yang digunakan dalam analisis lebih bersih, sehingga hasil eksplorasi data dan model prediksi yang dibuat nantinya menjadi lebih akurat dan efisien.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pastikan nama kolom sesuai dengan dataset</span>
@@ -1382,8 +1437,55 @@ Outliers pada kolom Sepal Width:
 </div>
 </div>
 </div>
-<p>#<strong>9. Validasi Data</strong></p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="validasi-data">
+<h1><strong>9. Validasi Data</strong><a class="headerlink" href="#validasi-data" title="Link to this heading">#</a></h1>
 <p>Validasi data merupakan langkah krusial dalam tahap pemahaman data (data understanding) yang bertujuan untuk memastikan bahwa data yang digunakan relevan, akurat, dan mencerminkan realitas yang ingin dipelajari. Proses ini dilakukan dengan berbagai cara, seperti memeriksa kelengkapan data, memastikan format dan tipe data sesuai, serta menguji konsistensi antar-kolom. Selain itu, analisis statistik deskriptif juga digunakan untuk menilai distribusi data dengan melihat nilai rata-rata, median, modus, serta deteksi nilai ekstrem atau outliers melalui metode Interquartile Range (IQR) atau visualisasi seperti boxplot. Misalnya, jika ditemukan nilai yang tidak masuk akal, seperti umur pelanggan mencapai 200 tahun atau suhu di bawah -100°C, maka kemungkinan besar terdapat kesalahan dalam pencatatan data yang perlu diperbaiki. Dengan validasi yang baik, data dapat digunakan untuk analisis dan model prediktif dengan hasil yang lebih akurat dan dapat diandalkan, sehingga menghasilkan wawasan yang lebih efektif dalam pengambilan keputusan.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ground_truth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="nn">&lt;ipython-input-14-6823c7526fd3&gt;</span> in <span class="ni">&lt;cell line: 0&gt;</span><span class="nt">()</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">ground_truth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;np&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.neighbors</span>
+<span class="kn">import</span> <span class="n">LocalOutlierFactor</span>
+
+<span class="n">clf</span> <span class="o">=</span> <span class="n">LocalOutlierFactor</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">contamination</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">filtered_df</span><span class="p">)</span>
+<span class="n">n_errors</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_pred</span> <span class="o">!=</span> <span class="n">ground_truth</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">X_scores</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">negative_outlier_factor_</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="nn">&lt;ipython-input-4-c10620d2a1ab&gt;</span> in <span class="ni">&lt;cell line: 0&gt;</span><span class="nt">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> 
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">clf</span> <span class="o">=</span> <span class="n">LocalOutlierFactor</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">contamination</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="ne">----&gt; </span><span class="mi">4</span> <span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">n_errors</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_pred</span> <span class="o">!=</span> <span class="n">ground_truth</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">X_scores</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">negative_outlier_factor_</span>
+
+<span class="ne">NameError</span>: name &#39;X&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -1429,7 +1531,7 @@ Outliers pada kolom Sepal Width:
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><strong>Cara Kerja K-Nearest Neighbors (KNN) Secara Detail</strong></p>
+        <p class="prev-next-title"><strong>Outliers Detection Menggunakan Metode K-Nearest Neighbors (KNN)</strong></p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1448,7 +1550,25 @@ Outliers pada kolom Sepal Width:
     <i class="fa-solid fa-list"></i> Contents
   </div>
   <nav class="bd-toc-nav page-toc">
-    <ul class="simple visible nav section-nav flex-column">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#"><strong>Data Understanding</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#apa-itu-data-understanding"><strong>Apa itu Data Understanding…?</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#macam-macam-tipe-data"><strong>Macam-Macam Tipe Data!!!</strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagaimana-data-understanding-dalam-data-mining"><strong>Bagaimana Data Understanding dalam Data Mining…?</strong></a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#tujuan-data-understanding"><strong>Tujuan Data Understanding!!!</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-langkah-data-understanding"><strong>Langkah langkah Data Understanding!!!</strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pengumpulan-data"><strong>1. Pengumpulan Data</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling-data"><strong>2. Sampling Data</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#profiling-data"><strong>3. Profiling Data</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#korelasi-dan-asosiasi"><strong>5. Korelasi dan Asosiasi</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eksplorasi-data"><strong>6. Eksplorasi Data</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-data"><strong>7. Visualisasi Data</strong></a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#identifikasi-masalah-data"><strong>8. Identifikasi Masalah Data</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#validasi-data"><strong>9. Validasi Data</strong></a></li>
 </ul>
 
   </nav></div>
