@@ -60,6 +60,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'outlier_detection';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="LOCAL OUTLIER FACTOR (LOF)" href="local_outlier_factor_%28lof%29.html" />
     <link rel="prev" title="Data Understanding" href="data_understanding.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -187,6 +188,14 @@
 
 
 <li class="toctree-l1 current active"><a class="current reference internal" href="#"><strong>Outliers Detection Menggunakan Metode K-Nearest Neighbors (KNN)</strong></a></li>
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="local_outlier_factor_%28lof%29.html"><strong>LOCAL OUTLIER FACTOR (LOF)</strong></a></li>
+
 
 
 
@@ -571,21 +580,17 @@ document.write(`
 Requirement already satisfied: sqlalchemy in /usr/local/lib/python3.11/dist-packages (2.0.38)
 Requirement already satisfied: greenlet!=0.4.17 in /usr/local/lib/python3.11/dist-packages (from sqlalchemy) (3.1.1)
 Requirement already satisfied: typing-extensions&gt;=4.6.0 in /usr/local/lib/python3.11/dist-packages (from sqlalchemy) (4.12.2)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading psycopg2_binary-2.9.10-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.0 MB)
+Downloading psycopg2_binary-2.9.10-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.0 MB)
 ?25l   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">0.0/3.0 MB</span> <span class=" -Color -Color-Red">?</span> eta <span class=" -Color -Color-Cyan">-:--:--</span>
-   ━╸━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">0.1/3.0 MB</span> <span class=" -Color -Color-Red">4.1 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:01</span>
-   ━━━━━━━━━━━━━━━╸━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">1.2/3.0 MB</span> <span class=" -Color -Color-Red">17.3 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:01</span>
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸ <span class=" -Color -Color-Green">3.0/3.0 MB</span> <span class=" -Color -Color-Red">34.4 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:01</span>
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">3.0/3.0 MB</span> <span class=" -Color -Color-Red">26.1 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+   ━╺━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">0.1/3.0 MB</span> <span class=" -Color -Color-Red">2.8 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:02</span>
+   ━━━━━━━━╸━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">0.6/3.0 MB</span> <span class=" -Color -Color-Red">9.4 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:01</span>
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸ <span class=" -Color -Color-Green">3.0/3.0 MB</span> <span class=" -Color -Color-Red">29.4 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:01</span>
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">3.0/3.0 MB</span> <span class=" -Color -Color-Red">24.2 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
 ?25h
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Installing collected packages: psycopg2-binary
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Successfully installed psycopg2-binary-2.9.10
+Successfully installed psycopg2-binary-2.9.10
 </pre></div>
 </div>
 </div>
@@ -975,99 +980,23 @@ Data Outliers:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="nn">&lt;ipython-input-6-2c321ea82534&gt;</span> in <span class="ni">&lt;cell line: 0&gt;</span><span class="nt">()</span>
-<span class="g g-Whitespace">     </span><span class="mi">95</span>     <span class="c1"># Simpan hasil deteksi outlier ke database PostgreSQL</span>
-<span class="g g-Whitespace">     </span><span class="mi">96</span>     <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">combined_df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
-<span class="ne">---&gt; </span><span class="mi">97</span>         <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="g g-Whitespace">     </span><span class="mi">98</span><span class="s2">             INSERT INTO public.newtable (id, &quot;Class&quot;, &quot;sepal length&quot;, &quot;sepal width&quot;, &quot;petal length&quot;, &quot;petal width&quot;, outlier_score, is_outlier)</span>
-<span class="g g-Whitespace">     </span><span class="mi">99</span><span class="s2">             VALUES (</span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">)</span>
-
-<span class="nn">/usr/lib/python3.11/encodings/utf_8.py</span> in <span class="ni">decode</span><span class="nt">(input, errors)</span>
-<span class="g g-Whitespace">     </span><span class="mi">13</span><span class="s2"> encode = codecs.utf_8_encode</span>
-<span class="g g-Whitespace">     </span><span class="mi">14</span><span class="s2"> </span>
-<span class="ne">---&gt; </span><span class="mi">15</span><span class="s2"> def decode(input, errors=&#39;strict&#39;):</span>
-<span class="g g-Whitespace">     </span><span class="mi">16</span><span class="s2">     return codecs.utf_8_decode(input, errors, True)</span>
-<span class="g g-Whitespace">     </span><span class="mi">17</span><span class="s2"> </span>
-
-<span class="ne">KeyboardInterrupt</span>: 
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Data dengan Outlier ===
++------+-----------------+----------------+---------------+----------------+---------------+-----------------+--------------+
+|   id | Class           |   sepal length |   sepal width |   petal length |   petal width |   outlier_score | is_outlier   |
+|------+-----------------+----------------+---------------+----------------+---------------+-----------------+--------------|
+|    1 | Iris-setosa     |            5.1 |           3.5 |           86.4 |          70   |      104.809    | True         |
+|  118 | Iris-virginica  |            7.7 |           3.8 |            6.7 |           2.2 |        1.00499  | True         |
+|  132 | Iris-virginica  |            7.9 |           3.8 |            6.4 |           2   |        0.932738 | True         |
+|  119 | Iris-virginica  |            7.7 |           2.6 |            6.9 |           2.3 |        0.927362 | True         |
+|  107 | Iris-virginica  |            4.9 |           2.5 |            4.5 |           1.7 |        0.877496 | True         |
+|   99 | Iris-versicolor |            5.1 |           2.5 |            3   |           1.1 |        0.793725 | True         |
+|   42 | Iris-setosa     |            4.5 |           2.3 |            1.3 |           0.3 |        0.781025 | True         |
+|  110 | Iris-virginica  |            7.2 |           3.6 |            6.1 |           2.5 |        0.754983 | True         |
+|   58 | Iris-versicolor |            4.9 |           2.4 |            3.3 |           1   |        0.72111  | False        |
+|   61 | Iris-versicolor |            5   |           2   |            3.5 |           1   |        0.714143 | False        |
++------+-----------------+----------------+---------------+----------------+---------------+-----------------+--------------+
 </pre></div>
 </div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ground_truth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">filtered_df</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">scikit</span><span class="o">-</span><span class="n">learn</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: scikit-learn in /usr/local/lib/python3.11/dist-packages (1.6.1)
-Requirement already satisfied: numpy&gt;=1.19.5 in /usr/local/lib/python3.11/dist-packages (from scikit-learn) (1.26.4)
-Requirement already satisfied: scipy&gt;=1.6.0 in /usr/local/lib/python3.11/dist-packages (from scikit-learn) (1.13.1)
-Requirement already satisfied: joblib&gt;=1.2.0 in /usr/local/lib/python3.11/dist-packages (from scikit-learn) (1.4.2)
-Requirement already satisfied: threadpoolctl&gt;=3.1.0 in /usr/local/lib/python3.11/dist-packages (from scikit-learn) (3.5.0)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">LocalOutlierFactor</span>
-
-<span class="n">clf</span> <span class="o">=</span> <span class="n">LocalOutlierFactor</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">contamination</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
-<span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">filtered_df</span><span class="p">)</span>
-<span class="n">n_errors</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_pred</span> <span class="o">!=</span> <span class="n">ground_truth</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-<span class="n">X_scores</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">negative_outlier_factor_</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">matplotlib.legend_handler</span> <span class="kn">import</span> <span class="n">HandlerPathCollection</span>
-
-
-<span class="k">def</span> <span class="nf">update_legend_marker_size</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">orig</span><span class="p">):</span>
-    <span class="s2">&quot;Customize size of the legend marker&quot;</span>
-    <span class="n">handle</span><span class="o">.</span><span class="n">update_from</span><span class="p">(</span><span class="n">orig</span><span class="p">)</span>
-    <span class="n">handle</span><span class="o">.</span><span class="n">set_sizes</span><span class="p">([</span><span class="mi">20</span><span class="p">])</span>
-
-
-<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">filtered_df</span><span class="p">[</span><span class="s1">&#39;petal_length&#39;</span><span class="p">],</span> <span class="n">filtered_df</span><span class="p">[</span><span class="s1">&#39;petal_width&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Data points&quot;</span><span class="p">)</span>
-<span class="c1"># plot circles with radius proportional to the outlier scores</span>
-<span class="n">radius</span> <span class="o">=</span> <span class="p">(</span><span class="n">X_scores</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">X_scores</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">X_scores</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">X_scores</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
-<span class="n">scatter</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
-    <span class="n">filtered_df</span><span class="p">[</span><span class="s1">&#39;petal_length&#39;</span><span class="p">],</span>
-    <span class="n">filtered_df</span><span class="p">[</span><span class="s1">&#39;petal_width&#39;</span><span class="p">],</span>
-    <span class="n">s</span><span class="o">=</span><span class="mi">1000</span> <span class="o">*</span> <span class="n">radius</span><span class="p">,</span>
-    <span class="n">edgecolors</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span>
-    <span class="n">facecolors</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
-    <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Outlier scores&quot;</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;tight&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">((</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">((</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;prediction errors: </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">n_errors</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
-    <span class="n">handler_map</span><span class="o">=</span><span class="p">{</span><span class="n">scatter</span><span class="p">:</span> <span class="n">HandlerPathCollection</span><span class="p">(</span><span class="n">update_func</span><span class="o">=</span><span class="n">update_legend_marker_size</span><span class="p">)}</span>
-<span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Local Outlier Factor (LOF)&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="_images/0f38ab1a224a771507c550bd4bd82cc9ddd003d12ed0ff898c77ff57d914c955.png" src="_images/0f38ab1a224a771507c550bd4bd82cc9ddd003d12ed0ff898c77ff57d914c955.png" />
 </div>
 </div>
 </section>
@@ -1110,6 +1039,15 @@ Requirement already satisfied: threadpoolctl&gt;=3.1.0 in /usr/local/lib/python3
         <p class="prev-next-subtitle">previous</p>
         <p class="prev-next-title"><strong>Data Understanding</strong></p>
       </div>
+    </a>
+    <a class="right-next"
+       href="local_outlier_factor_%28lof%29.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><strong>LOCAL OUTLIER FACTOR (LOF)</strong></p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
