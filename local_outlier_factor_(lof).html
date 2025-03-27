@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>LOCAL OUTLIER FACTOR (LOF) &#8212; My sample book</title>
+    <title>Local Outlier Factor (LOF) &#8212; My sample book</title>
   
   
   
@@ -60,6 +60,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'local_outlier_factor_(lof)';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Klasifikasi Naive Bayes" href="klasifikasi_naive_bayes.html" />
     <link rel="prev" title="Outliers Detection Menggunakan Metode K-Nearest Neighbors (KNN)" href="outlier_detection.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -193,8 +194,15 @@
 
 
 
-<li class="toctree-l1 current active"><a class="current reference internal" href="#"><strong>LOCAL OUTLIER FACTOR (LOF)</strong></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><strong>Local Outlier Factor (LOF)</strong></a></li>
 
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="klasifikasi_naive_bayes.html"><strong>Klasifikasi Naive Bayes</strong></a></li>
 
 
 
@@ -386,7 +394,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>LOCAL OUTLIER FACTOR (LOF)</h1>
+    <h1>Local Outlier Factor (LOF)</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -396,7 +404,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#"><strong>LOCAL OUTLIER FACTOR (LOF)</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#"><strong>Local Outlier Factor (LOF)</strong></a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#apa-itu-local-outlier-factor"><strong>Apa itu local outlier factor…?</strong></a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#cara-kerja-lof-dalam-bentuk-langkah-langkahnya"><strong>Cara kerja LOF dalam bentuk langkah-langkahnya…!</strong></a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#a-proses-perhitungan-local-outlier-factor-secara-manual"><strong>A. Proses Perhitungan Local Outlier Factor secara Manual</strong></a><ul class="visible nav section-nav flex-column">
@@ -432,7 +440,7 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="local-outlier-factor-lof">
-<h1><strong>LOCAL OUTLIER FACTOR (LOF)</strong><a class="headerlink" href="#local-outlier-factor-lof" title="Link to this heading">#</a></h1>
+<h1><strong>Local Outlier Factor (LOF)</strong><a class="headerlink" href="#local-outlier-factor-lof" title="Link to this heading">#</a></h1>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="apa-itu-local-outlier-factor">
 <h1><strong>Apa itu local outlier factor…?</strong><a class="headerlink" href="#apa-itu-local-outlier-factor" title="Link to this heading">#</a></h1>
@@ -993,16 +1001,16 @@ Berikut ini adalah nilai dari RD(3,7) : 56.64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{0: 0.37139343408668146,
- 1: 0.6213203435596426,
- 2: 0.554097093777194,
- 3: 0.01742362243662963,
- 4: 0.5309469942036714,
- 5: 0.4810723697727846,
- 6: 0.38257404538815565,
- 7: 0.509653732104414,
- 8: 0.5309469942036714,
- 9: 0.5309469942036714}
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{0: np.float64(0.37139343408668146),
+ 1: np.float64(0.6213203435596426),
+ 2: np.float64(0.554097093777194),
+ 3: np.float64(0.01742362243662963),
+ 4: np.float64(0.5309469942036714),
+ 5: np.float64(0.4810723697727846),
+ 6: np.float64(0.38257404538815565),
+ 7: np.float64(0.509653732104414),
+ 8: np.float64(0.5309469942036714),
+ 9: np.float64(0.5309469942036714)}
 </pre></div>
 </div>
 </div>
@@ -1050,16 +1058,16 @@ Berikut ini adalah nilai dari RD(3,7) : 56.64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{0: 1.3172178061235245,
- 1: 0.8669661305075297,
- 2: 1.012586873835158,
- 3: 29.11130376045992,
- 4: 0.9832221011707291,
- 5: 1.1049604455136146,
- 6: 1.2689809459759704,
- 7: 1.1160286053400408,
- 8: 1.0579029468962124,
- 9: 0.9781211682355786}
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{0: np.float64(1.3172178061235245),
+ 1: np.float64(0.8669661305075297),
+ 2: np.float64(1.012586873835158),
+ 3: np.float64(29.11130376045992),
+ 4: np.float64(0.9832221011707291),
+ 5: np.float64(1.1049604455136146),
+ 6: np.float64(1.2689809459759704),
+ 7: np.float64(1.1160286053400408),
+ 8: np.float64(1.0579029468962124),
+ 9: np.float64(0.9781211682355786)}
 </pre></div>
 </div>
 </div>
@@ -1432,6 +1440,15 @@ Indeks-9 → LOF: 0.9781
         <p class="prev-next-title"><strong>Outliers Detection Menggunakan Metode K-Nearest Neighbors (KNN)</strong></p>
       </div>
     </a>
+    <a class="right-next"
+       href="klasifikasi_naive_bayes.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><strong>Klasifikasi Naive Bayes</strong></p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
@@ -1448,7 +1465,7 @@ Indeks-9 → LOF: 0.9781
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#"><strong>LOCAL OUTLIER FACTOR (LOF)</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#"><strong>Local Outlier Factor (LOF)</strong></a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#apa-itu-local-outlier-factor"><strong>Apa itu local outlier factor…?</strong></a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#cara-kerja-lof-dalam-bentuk-langkah-langkahnya"><strong>Cara kerja LOF dalam bentuk langkah-langkahnya…!</strong></a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#a-proses-perhitungan-local-outlier-factor-secara-manual"><strong>A. Proses Perhitungan Local Outlier Factor secara Manual</strong></a><ul class="visible nav section-nav flex-column">
