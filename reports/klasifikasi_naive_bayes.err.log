@@ -18,32 +18,32 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-# Hapus kolom non-numerik sebelum menggunakan LOF
-data = data.drop(columns=['class'])
+# Pastikan kolom 'class' ada sebelum menghapusnya
+if 'class' in data.columns:
+    data = data.drop(columns=['class'])  # Hapus kolom 'class' jika ada
 
+# LOF untuk mendeteksi outlier
 lof_model = LocalOutlierFactor(n_neighbors=3, metric='euclidean')
 
 lof_labels = lof_model.fit_predict(data)  # -1 = outlier, 1 = inlier
 lof_values = -lof_model.negative_outlier_factor_
 
+# Tampilkan LOF dan label untuk setiap data point
 for i in range(len(data)):
     print(f"Indeks-{i} → LOF: {lof_values[i]:.4f}, Label: {'Outlier' if lof_labels[i] == -1 else 'Inlier'}")
 
 filtered_data = data[lof_labels == 1]  # Hanya simpan data yang bukan outlier
-
-print("\nJumlah Data Sebelum:", len(data))
-print("Jumlah Data Setelah Menghapus Outliers:", len(filtered_data))
 ------------------
 
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mNameError[0m                                 Traceback (most recent call last)
-[0;32m<ipython-input-3-c82c522da2c4>[0m in [0;36m<cell line: 0>[0;34m()[0m
-[1;32m      2[0m [0mdata[0m [0;34m=[0m [0mdata[0m[0;34m.[0m[0mdrop[0m[0;34m([0m[0mcolumns[0m[0;34m=[0m[0;34m[[0m[0;34m'class'[0m[0;34m][0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
-[1;32m      3[0m [0;34m[0m[0m
-[0;32m----> 4[0;31m [0mlof_model[0m [0;34m=[0m [0mLocalOutlierFactor[0m[0;34m([0m[0mn_neighbors[0m[0;34m=[0m[0;36m3[0m[0;34m,[0m [0mmetric[0m[0;34m=[0m[0;34m'euclidean'[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
-[0m[1;32m      5[0m [0;34m[0m[0m
-[1;32m      6[0m [0mlof_labels[0m [0;34m=[0m [0mlof_model[0m[0;34m.[0m[0mfit_predict[0m[0;34m([0m[0mdata[0m[0;34m)[0m  [0;31m# -1 = outlier, 1 = inlier[0m[0;34m[0m[0;34m[0m[0m
+[0;32m<ipython-input-3-cfea163ba081>[0m in [0;36m<cell line: 0>[0;34m()[0m
+[1;32m      4[0m [0;34m[0m[0m
+[1;32m      5[0m [0;31m# LOF untuk mendeteksi outlier[0m[0;34m[0m[0;34m[0m[0m
+[0;32m----> 6[0;31m [0mlof_model[0m [0;34m=[0m [0mLocalOutlierFactor[0m[0;34m([0m[0mn_neighbors[0m[0;34m=[0m[0;36m3[0m[0;34m,[0m [0mmetric[0m[0;34m=[0m[0;34m'euclidean'[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m      7[0m [0;34m[0m[0m
+[1;32m      8[0m [0mlof_labels[0m [0;34m=[0m [0mlof_model[0m[0;34m.[0m[0mfit_predict[0m[0;34m([0m[0mdata[0m[0;34m)[0m  [0;31m# -1 = outlier, 1 = inlier[0m[0;34m[0m[0;34m[0m[0m
 
 [0;31mNameError[0m: name 'LocalOutlierFactor' is not defined
 
