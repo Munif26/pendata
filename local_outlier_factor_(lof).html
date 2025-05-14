@@ -28,7 +28,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -210,6 +210,11 @@
 
 
 <li class="toctree-l1"><a class="reference internal" href="proyek_ujiantengahsemester.html"><strong>📝 UTS Penambangan Data - Klasifikasi Prediksi Survival Pasien Sirosis</strong></a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="algoritma_k-means_clustering.html"><strong>Pengenalan Clustering dan K-Means</strong></a></li>
+
 
 
 
@@ -570,8 +575,8 @@ Pada perhitungan Euclidean, kita menghitung jarak antara titik-titik dalam datas
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Berikut adalam implementasi dalam pythonnya</span>
 
 <span class="c1">#Install librarynya</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">euclidean</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial.distance</span><span class="w"> </span><span class="kn">import</span> <span class="n">euclidean</span>
 
 <span class="c1"># Data titik dalam format array</span>
 <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
@@ -591,7 +596,7 @@ Pada perhitungan Euclidean, kita menghitung jarak antara titik-titik dalam datas
 <span class="n">selected_pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">3</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">))</span> <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">]</span>
 
 <span class="c1"># Fungsi untuk menghitung jarak Euclidean antar titik</span>
-<span class="k">def</span> <span class="nf">compute_distance_between_points</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">point_indices</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_distance_between_points</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">point_indices</span><span class="p">):</span>
     <span class="n">distances</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="n">point_indices</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">j</span><span class="p">:</span>
@@ -642,11 +647,11 @@ Jarak dari indeks 3 ke indeks 8: 58.05
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">euclidean</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial.distance</span><span class="w"> </span><span class="kn">import</span> <span class="n">euclidean</span>
 
 <span class="c1"># Fungsi untuk menghitung jarak Euclidean antara titik yang dipilih</span>
-<span class="k">def</span> <span class="nf">compute_distance_between_points</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">point_indices</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_distance_between_points</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">point_indices</span><span class="p">):</span>
     <span class="n">distances</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="n">point_indices</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">j</span><span class="p">:</span>
@@ -712,11 +717,11 @@ k-distance 3: 2.24
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">euclidean</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial.distance</span><span class="w"> </span><span class="kn">import</span> <span class="n">euclidean</span>
 
 <span class="c1"># Fungsi untuk menghitung jarak Euclidean antara titik yang dipilih</span>
-<span class="k">def</span> <span class="nf">compute_distance_between_points</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">point_indices</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_distance_between_points</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">point_indices</span><span class="p">):</span>
     <span class="n">distances</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="n">point_indices</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">j</span><span class="p">:</span>
@@ -781,11 +786,11 @@ k-distance 3: 2.24
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">euclidean</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial.distance</span><span class="w"> </span><span class="kn">import</span> <span class="n">euclidean</span>
 
 <span class="c1"># Fungsi untuk menghitung jarak Euclidean antara titik yang dipilih</span>
-<span class="k">def</span> <span class="nf">compute_distance_between_points</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">point_indices</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_distance_between_points</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">point_indices</span><span class="p">):</span>
     <span class="n">distances</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span> <span class="ow">in</span> <span class="n">point_indices</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">j</span><span class="p">:</span>
@@ -954,11 +959,11 @@ Berikut ini adalah nilai dari RD(3,7) : 56.64
     <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>    <span class="c1"># 9</span>
 <span class="p">])</span>
 
-<span class="k">def</span> <span class="nf">euclidean_distance</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">euclidean_distance</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Menghitung jarak Euclidean antara dua titik.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">p1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">p2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">p1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">p2</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">compute_k_distance_neighbors</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_k_distance_neighbors</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Menghitung k tetangga terdekat untuk setiap titik.&quot;&quot;&quot;</span>
     <span class="n">num_points</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="n">neighbors_dict</span> <span class="o">=</span> <span class="p">{}</span>
@@ -970,7 +975,7 @@ Berikut ini adalah nilai dari RD(3,7) : 56.64
 
     <span class="k">return</span> <span class="n">neighbors_dict</span>
 
-<span class="k">def</span> <span class="nf">compute_rd</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">neighbors_dict</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_rd</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">neighbors_dict</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Menghitung Reachability Distance (RD) untuk setiap titik.&quot;&quot;&quot;</span>
     <span class="n">rd_dict</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -984,7 +989,7 @@ Berikut ini adalah nilai dari RD(3,7) : 56.64
 
     <span class="k">return</span> <span class="n">rd_dict</span>
 
-<span class="k">def</span> <span class="nf">compute_lrd</span><span class="p">(</span><span class="n">rd_dict</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_lrd</span><span class="p">(</span><span class="n">rd_dict</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Menghitung Local Reachability Density (LRD) untuk setiap titik.&quot;&quot;&quot;</span>
     <span class="n">lrd_dict</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -1082,11 +1087,11 @@ Berikut ini adalah nilai dari RD(3,7) : 56.64
 <h1><strong>1. Berikut adalah code lain dengan tanpa menggunakan library</strong><a class="headerlink" href="#berikut-adalah-code-lain-dengan-tanpa-menggunakan-library" title="Link to this heading">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">euclidean</span>  <span class="c1"># Untuk menghitung jarak Euclidean antara titik</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial.distance</span><span class="w"> </span><span class="kn">import</span> <span class="n">euclidean</span>  <span class="c1"># Untuk menghitung jarak Euclidean antara titik</span>
 
-<span class="k">def</span> <span class="nf">calculate_lof_manual</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">calculate_lof_manual</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Fungsi untuk menghitung Local Outlier Factor (LOF) secara manual.</span>
 <span class="sd">    Args:</span>
@@ -1300,8 +1305,8 @@ Titik Tetangga Terdekat     RD    LRD  LOF Score (Manual)
 <p>Pada tahap selanjutnya, kita akan memanfaatkan library bawaan Python, yaitu Scikit-Learn, untuk mendeteksi outlier dengan lebih efisien. Dengan bantuan library ini, proses identifikasi outlier yang seharusnya memerlukan banyak baris kode dapat disederhanakan hanya dalam satu baris perintah, seperti yang ditunjukkan pada kode berikut.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">LocalOutlierFactor</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalOutlierFactor</span>
 
 <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
     <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">45</span><span class="p">,</span> <span class="mi">50</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
@@ -1338,9 +1343,9 @@ Indeks-9 → LOF: 0.9781
 <h1><strong>2. Berikut adalah code lain dengan menggunakan library</strong><a class="headerlink" href="#berikut-adalah-code-lain-dengan-menggunakan-library" title="Link to this heading">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">LocalOutlierFactor</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalOutlierFactor</span>
 
 <span class="c1"># ==========================</span>
 <span class="c1"># 1. Menyiapkan Data</span>
