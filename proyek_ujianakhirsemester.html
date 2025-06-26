@@ -1270,370 +1270,63 @@ Semua model memiliki akurasi sangat tinggi, bahkan mencapai 100% (1.00) pada dat
 <p><strong>9. Generate File Deployment</strong></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simpan model terbaik</span>
-<span class="n">joblib</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">rf_model</span><span class="p">,</span> <span class="s1">&#39;mushroom_rf_model.pkl&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;mushroom_rf_model.pkl&#39;]
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Menulis file app.py otomatis dari Colab</span>
-<span class="n">app_code</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">import streamlit as st</span>
-<span class="s2">import joblib</span>
-
-<span class="s2">model = joblib.load(&#39;mushroom_rf_model.pkl&#39;)</span>
-
-<span class="s2">st.title(&quot;🍄 Prediksi Jamur: Beracun atau Tidak?&quot;)</span>
-
-<span class="s2">odor = st.selectbox(&quot;Bau Jamur&quot;, [&#39;almond&#39;, &#39;creosote&#39;, &#39;foul&#39;, &#39;none&#39;, &#39;pungent&#39;, &#39;spicy&#39;, &#39;fishy&#39;, &#39;musty&#39;])</span>
-<span class="s2">gill_color = st.selectbox(&quot;Warna Insang&quot;, [&#39;black&#39;, &#39;brown&#39;, &#39;buff&#39;, &#39;chocolate&#39;, &#39;gray&#39;, &#39;orange&#39;, &#39;pink&#39;, &#39;purple&#39;, &#39;red&#39;, &#39;white&#39;, &#39;yellow&#39;])</span>
-<span class="s2">spore_print_color = st.selectbox(&quot;Warna Cetakan Spora&quot;, [&#39;black&#39;, &#39;brown&#39;, &#39;buff&#39;, &#39;chocolate&#39;, &#39;green&#39;, &#39;orange&#39;, &#39;purple&#39;, &#39;white&#39;, &#39;yellow&#39;])</span>
-
-<span class="s2">encoder_maps = {</span>
-<span class="s2">    &#39;odor&#39;: {&#39;almond&#39;: 0, &#39;creosote&#39;: 1, &#39;foul&#39;: 2, &#39;none&#39;: 3, &#39;pungent&#39;: 4, &#39;spicy&#39;: 5, &#39;fishy&#39;: 6, &#39;musty&#39;: 7},</span>
-<span class="s2">    &#39;gill-color&#39;: {&#39;black&#39;: 0, &#39;brown&#39;: 1, &#39;buff&#39;: 2, &#39;chocolate&#39;: 3, &#39;gray&#39;: 4, &#39;orange&#39;: 5, &#39;pink&#39;: 6, &#39;purple&#39;: 7, &#39;red&#39;: 8, &#39;white&#39;: 9, &#39;yellow&#39;: 10},</span>
-<span class="s2">    &#39;spore-print-color&#39;: {&#39;black&#39;: 0, &#39;brown&#39;: 1, &#39;buff&#39;: 2, &#39;chocolate&#39;: 3, &#39;green&#39;: 4, &#39;orange&#39;: 5, &#39;purple&#39;: 6, &#39;white&#39;: 7, &#39;yellow&#39;: 8}</span>
-<span class="s2">}</span>
-
-<span class="s2">if st.button(&quot;Prediksi&quot;):</span>
-<span class="s2">    input_data = [</span>
-<span class="s2">        encoder_maps[&#39;odor&#39;][odor],</span>
-<span class="s2">        encoder_maps[&#39;gill-color&#39;][gill_color],</span>
-<span class="s2">        encoder_maps[&#39;spore-print-color&#39;][spore_print_color]</span>
-<span class="s2">    ]</span>
-<span class="s2">    result = model.predict([input_data])[0]</span>
-<span class="s2">    st.success(&quot;☠️ Beracun&quot; if result == 1 else &quot;🍽️ Dapat Dimakan&quot;)</span>
-<span class="s2">&quot;&quot;&quot;</span>
-
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;app.py&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">app_code</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p><strong>File requirements.txt otomatis:</strong></p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;requirements.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;streamlit</span><span class="se">\n</span><span class="s2">joblib</span><span class="se">\n</span><span class="s2">scikit-learn</span><span class="se">\n</span><span class="s2">numpy</span><span class="se">\n</span><span class="s2">pandas</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>ls
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> algoritma_k-means_clustering.ipynb   logo.png
- app.py				      mushroom_rf_model.pkl
- binning_diskretisasi.ipynb	      notebooks.ipynb
- _build				      outlier_detection.ipynb
- _config.yml			      proyek_ujianakhirsemester.ipynb
- data_understanding.ipynb	      proyek_ujiantengahsemester.ipynb
- decison_tree.ipynb		      references.bib
- intro.md			      requirements.txt
- klasifikasi_naive_bayes.ipynb	      _toc.yml
-&#39;local_outlier_factor_(lof).ipynb&#39;    tugas_pra_uas.ipynb
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Install dan import pustaka</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Langkah 1: Import Library</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">LabelEncoder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomForestClassifier</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">joblib</span>
 
-<span class="c1"># 2. Load dataset Mushroom dari UCI (bisa ganti dengan path file kamu)</span>
-<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://archive.ics.uci.edu/ml/machine-learning-databases/mushroom/agaricus-lepiota.data&quot;</span>
-<span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s1">&#39;class&#39;</span><span class="p">,</span> <span class="s1">&#39;cap-shape&#39;</span><span class="p">,</span> <span class="s1">&#39;cap-surface&#39;</span><span class="p">,</span> <span class="s1">&#39;cap-color&#39;</span><span class="p">,</span> <span class="s1">&#39;bruises&#39;</span><span class="p">,</span> <span class="s1">&#39;odor&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;gill-attachment&#39;</span><span class="p">,</span> <span class="s1">&#39;gill-spacing&#39;</span><span class="p">,</span> <span class="s1">&#39;gill-size&#39;</span><span class="p">,</span> <span class="s1">&#39;gill-color&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;stalk-shape&#39;</span><span class="p">,</span> <span class="s1">&#39;stalk-root&#39;</span><span class="p">,</span> <span class="s1">&#39;stalk-surface-above-ring&#39;</span><span class="p">,</span> <span class="s1">&#39;stalk-surface-below-ring&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;stalk-color-above-ring&#39;</span><span class="p">,</span> <span class="s1">&#39;stalk-color-below-ring&#39;</span><span class="p">,</span> <span class="s1">&#39;veil-type&#39;</span><span class="p">,</span> <span class="s1">&#39;veil-color&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;ring-number&#39;</span><span class="p">,</span> <span class="s1">&#39;ring-type&#39;</span><span class="p">,</span> <span class="s1">&#39;spore-print-color&#39;</span><span class="p">,</span> <span class="s1">&#39;population&#39;</span><span class="p">,</span> <span class="s1">&#39;habitat&#39;</span>
-<span class="p">]</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
+<span class="c1"># Langkah 2: Load Dataset</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://archive.ics.uci.edu/ml/machine-learning-databases/mushroom/agaricus-lepiota.data&#39;</span>
+<span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;class&#39;</span><span class="p">,</span> <span class="s1">&#39;cap-shape&#39;</span><span class="p">,</span> <span class="s1">&#39;cap-surface&#39;</span><span class="p">,</span> <span class="s1">&#39;cap-color&#39;</span><span class="p">,</span> <span class="s1">&#39;bruises&#39;</span><span class="p">,</span> <span class="s1">&#39;odor&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;gill-attachment&#39;</span><span class="p">,</span> <span class="s1">&#39;gill-spacing&#39;</span><span class="p">,</span> <span class="s1">&#39;gill-size&#39;</span><span class="p">,</span> <span class="s1">&#39;gill-color&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;stalk-shape&#39;</span><span class="p">,</span> <span class="s1">&#39;stalk-root&#39;</span><span class="p">,</span> <span class="s1">&#39;stalk-surface-above-ring&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;stalk-surface-below-ring&#39;</span><span class="p">,</span> <span class="s1">&#39;stalk-color-above-ring&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;stalk-color-below-ring&#39;</span><span class="p">,</span> <span class="s1">&#39;veil-type&#39;</span><span class="p">,</span> <span class="s1">&#39;veil-color&#39;</span><span class="p">,</span> <span class="s1">&#39;ring-number&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;ring-type&#39;</span><span class="p">,</span> <span class="s1">&#39;spore-print-color&#39;</span><span class="p">,</span> <span class="s1">&#39;population&#39;</span><span class="p">,</span> <span class="s1">&#39;habitat&#39;</span><span class="p">]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
 
-<span class="c1"># 3. Ambil hanya fitur yang dipakai di app</span>
-<span class="n">selected_features</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;odor&#39;</span><span class="p">,</span> <span class="s1">&#39;gill-color&#39;</span><span class="p">,</span> <span class="s1">&#39;spore-print-color&#39;</span><span class="p">]</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">selected_features</span><span class="p">])</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;class&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>  <span class="c1"># edible=0, poisonous=1</span>
+<span class="c1"># Langkah 3: Preprocessing</span>
+<span class="n">df</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;stalk-root&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;stalk-root&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mode</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="c1"># 4. Latih model Random Forest</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="c1"># Simpan LabelEncoder per kolom</span>
+<span class="n">encoders</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">df_encoded</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
 
-<span class="c1"># 5. Simpan model ke file .pkl</span>
-<span class="n">joblib</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s1">&#39;mushroom_rf_model1.pkl&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="n">le</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
+    <span class="n">df_encoded</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">le</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">])</span>
+    <span class="n">encoders</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">le</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✅ Model berhasil disimpan sebagai &#39;mushroom_rf_model.pkl&#39;&quot;</span><span class="p">)</span>
+<span class="c1"># Split data</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df_encoded</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;class&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df_encoded</span><span class="p">[</span><span class="s1">&#39;class&#39;</span><span class="p">]</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Langkah 4: Train Random Forest</span>
+<span class="n">rf_model</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">rf_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Langkah 5: Simpan model dan label encoder</span>
+<span class="n">joblib</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">rf_model</span><span class="p">,</span> <span class="s1">&#39;mushroom_rf_model.pkl&#39;</span><span class="p">)</span>
+<span class="n">joblib</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">encoders</span><span class="p">,</span> <span class="s1">&#39;label_encoders.pkl&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ Model berhasil disimpan sebagai &#39;mushroom_rf_model.pkl&#39;
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>streamlit
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collecting streamlit
-  Downloading streamlit-1.46.0-py3-none-any.whl.metadata (9.0 kB)
-Requirement already satisfied: altair&lt;6,&gt;=4.0 in /usr/local/lib/python3.11/dist-packages (from streamlit) (5.5.0)
-Requirement already satisfied: blinker&lt;2,&gt;=1.5.0 in /usr/local/lib/python3.11/dist-packages (from streamlit) (1.9.0)
-Requirement already satisfied: cachetools&lt;7,&gt;=4.0 in /usr/local/lib/python3.11/dist-packages (from streamlit) (5.5.2)
-Requirement already satisfied: click&lt;9,&gt;=7.0 in /usr/local/lib/python3.11/dist-packages (from streamlit) (8.2.1)
-Requirement already satisfied: numpy&lt;3,&gt;=1.23 in /usr/local/lib/python3.11/dist-packages (from streamlit) (2.0.2)
-Requirement already satisfied: packaging&lt;26,&gt;=20 in /usr/local/lib/python3.11/dist-packages (from streamlit) (24.2)
-Requirement already satisfied: pandas&lt;3,&gt;=1.4.0 in /usr/local/lib/python3.11/dist-packages (from streamlit) (2.2.2)
-Requirement already satisfied: pillow&lt;12,&gt;=7.1.0 in /usr/local/lib/python3.11/dist-packages (from streamlit) (11.2.1)
-Requirement already satisfied: protobuf&lt;7,&gt;=3.20 in /usr/local/lib/python3.11/dist-packages (from streamlit) (5.29.5)
-Requirement already satisfied: pyarrow&gt;=7.0 in /usr/local/lib/python3.11/dist-packages (from streamlit) (18.1.0)
-Requirement already satisfied: requests&lt;3,&gt;=2.27 in /usr/local/lib/python3.11/dist-packages (from streamlit) (2.32.3)
-Requirement already satisfied: tenacity&lt;10,&gt;=8.1.0 in /usr/local/lib/python3.11/dist-packages (from streamlit) (8.5.0)
-Requirement already satisfied: toml&lt;2,&gt;=0.10.1 in /usr/local/lib/python3.11/dist-packages (from streamlit) (0.10.2)
-Requirement already satisfied: typing-extensions&lt;5,&gt;=4.4.0 in /usr/local/lib/python3.11/dist-packages (from streamlit) (4.14.0)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collecting watchdog&lt;7,&gt;=2.1.5 (from streamlit)
-  Downloading watchdog-6.0.0-py3-none-manylinux2014_x86_64.whl.metadata (44 kB)
-?25l     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">0.0/44.3 kB</span> <span class=" -Color -Color-Red">?</span> eta <span class=" -Color -Color-Cyan">-:--:--</span>
-     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">44.3/44.3 kB</span> <span class=" -Color -Color-Red">2.9 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
-?25hRequirement already satisfied: gitpython!=3.1.19,&lt;4,&gt;=3.0.7 in /usr/local/lib/python3.11/dist-packages (from streamlit) (3.1.44)
-Collecting pydeck&lt;1,&gt;=0.8.0b4 (from streamlit)
-  Downloading pydeck-0.9.1-py2.py3-none-any.whl.metadata (4.1 kB)
-Requirement already satisfied: tornado!=6.5.0,&lt;7,&gt;=6.0.3 in /usr/local/lib/python3.11/dist-packages (from streamlit) (6.4.2)
-Requirement already satisfied: jinja2 in /usr/local/lib/python3.11/dist-packages (from altair&lt;6,&gt;=4.0-&gt;streamlit) (3.1.6)
-Requirement already satisfied: jsonschema&gt;=3.0 in /usr/local/lib/python3.11/dist-packages (from altair&lt;6,&gt;=4.0-&gt;streamlit) (4.24.0)
-Requirement already satisfied: narwhals&gt;=1.14.2 in /usr/local/lib/python3.11/dist-packages (from altair&lt;6,&gt;=4.0-&gt;streamlit) (1.44.0)
-Requirement already satisfied: gitdb&lt;5,&gt;=4.0.1 in /usr/local/lib/python3.11/dist-packages (from gitpython!=3.1.19,&lt;4,&gt;=3.0.7-&gt;streamlit) (4.0.12)
-Requirement already satisfied: python-dateutil&gt;=2.8.2 in /usr/local/lib/python3.11/dist-packages (from pandas&lt;3,&gt;=1.4.0-&gt;streamlit) (2.9.0.post0)
-Requirement already satisfied: pytz&gt;=2020.1 in /usr/local/lib/python3.11/dist-packages (from pandas&lt;3,&gt;=1.4.0-&gt;streamlit) (2025.2)
-Requirement already satisfied: tzdata&gt;=2022.7 in /usr/local/lib/python3.11/dist-packages (from pandas&lt;3,&gt;=1.4.0-&gt;streamlit) (2025.2)
-Requirement already satisfied: charset-normalizer&lt;4,&gt;=2 in /usr/local/lib/python3.11/dist-packages (from requests&lt;3,&gt;=2.27-&gt;streamlit) (3.4.2)
-Requirement already satisfied: idna&lt;4,&gt;=2.5 in /usr/local/lib/python3.11/dist-packages (from requests&lt;3,&gt;=2.27-&gt;streamlit) (3.10)
-Requirement already satisfied: urllib3&lt;3,&gt;=1.21.1 in /usr/local/lib/python3.11/dist-packages (from requests&lt;3,&gt;=2.27-&gt;streamlit) (2.4.0)
-Requirement already satisfied: certifi&gt;=2017.4.17 in /usr/local/lib/python3.11/dist-packages (from requests&lt;3,&gt;=2.27-&gt;streamlit) (2025.6.15)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: smmap&lt;6,&gt;=3.0.1 in /usr/local/lib/python3.11/dist-packages (from gitdb&lt;5,&gt;=4.0.1-&gt;gitpython!=3.1.19,&lt;4,&gt;=3.0.7-&gt;streamlit) (5.0.2)
-Requirement already satisfied: MarkupSafe&gt;=2.0 in /usr/local/lib/python3.11/dist-packages (from jinja2-&gt;altair&lt;6,&gt;=4.0-&gt;streamlit) (3.0.2)
-Requirement already satisfied: attrs&gt;=22.2.0 in /usr/local/lib/python3.11/dist-packages (from jsonschema&gt;=3.0-&gt;altair&lt;6,&gt;=4.0-&gt;streamlit) (25.3.0)
-Requirement already satisfied: jsonschema-specifications&gt;=2023.03.6 in /usr/local/lib/python3.11/dist-packages (from jsonschema&gt;=3.0-&gt;altair&lt;6,&gt;=4.0-&gt;streamlit) (2025.4.1)
-Requirement already satisfied: referencing&gt;=0.28.4 in /usr/local/lib/python3.11/dist-packages (from jsonschema&gt;=3.0-&gt;altair&lt;6,&gt;=4.0-&gt;streamlit) (0.36.2)
-Requirement already satisfied: rpds-py&gt;=0.7.1 in /usr/local/lib/python3.11/dist-packages (from jsonschema&gt;=3.0-&gt;altair&lt;6,&gt;=4.0-&gt;streamlit) (0.25.1)
-Requirement already satisfied: six&gt;=1.5 in /usr/local/lib/python3.11/dist-packages (from python-dateutil&gt;=2.8.2-&gt;pandas&lt;3,&gt;=1.4.0-&gt;streamlit) (1.17.0)
-Downloading streamlit-1.46.0-py3-none-any.whl (10.1 MB)
-?25l   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">0.0/10.1 MB</span> <span class=" -Color -Color-Red">?</span> eta <span class=" -Color -Color-Cyan">-:--:--</span>
-   ━━━━━━━╺━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">1.9/10.1 MB</span> <span class=" -Color -Color-Red">56.3 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:01</span>
-   ━━━━━━━━━━━━━━━━━━━━━━━━╺━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">6.1/10.1 MB</span> <span class=" -Color -Color-Red">87.6 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:01</span>
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸ <span class=" -Color -Color-Green">10.0/10.1 MB</span> <span class=" -Color -Color-Red">102.2 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:01</span>
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸ <span class=" -Color -Color-Green">10.0/10.1 MB</span> <span class=" -Color -Color-Red">102.2 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:01</span>
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">10.1/10.1 MB</span> <span class=" -Color -Color-Red">64.6 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
-?25hDownloading pydeck-0.9.1-py2.py3-none-any.whl (6.9 MB)
-?25l   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">0.0/6.9 MB</span> <span class=" -Color -Color-Red">?</span> eta <span class=" -Color -Color-Cyan">-:--:--</span>
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╺━━ <span class=" -Color -Color-Green">6.4/6.9 MB</span> <span class=" -Color -Color-Red">144.6 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:01</span>
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸ <span class=" -Color -Color-Green">6.9/6.9 MB</span> <span class=" -Color -Color-Red">137.4 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:01</span>
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">6.9/6.9 MB</span> <span class=" -Color -Color-Red">76.8 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
-?25hDownloading watchdog-6.0.0-py3-none-manylinux2014_x86_64.whl (79 kB)
-?25l   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">0.0/79.1 kB</span> <span class=" -Color -Color-Red">?</span> eta <span class=" -Color -Color-Cyan">-:--:--</span>
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">79.1/79.1 kB</span> <span class=" -Color -Color-Red">6.8 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
-?25h
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Installing collected packages: watchdog, pydeck, streamlit
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Successfully installed pydeck-0.9.1 streamlit-1.46.0 watchdog-6.0.0
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">streamlit</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">st</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">joblib</span>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipython-input-7-4229359495.py:21: FutureWarning: A value is trying to be set on a copy of a DataFrame or Series through chained assignment using an inplace method.
+The behavior will change in pandas 3.0. This inplace method will never work because the intermediate object on which we are setting values always behaves as a copy.
 
-<span class="c1"># Load model</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;mushroom_rf_model1.pkl&#39;</span><span class="p">)</span>
+For example, when doing &#39;df[col].method(value, inplace=True)&#39;, try using &#39;df.method({col: value}, inplace=True)&#39; or df[col] = df[col].method(value) instead, to perform the operation inplace on the original object.
 
-<span class="c1"># Judul aplikasi</span>
-<span class="n">st</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;🍄 Prediksi Jamur: Beracun atau Tidak?&quot;</span><span class="p">)</span>
 
-<span class="n">st</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">Aplikasi ini menggunakan model **Random Forest** untuk memprediksi apakah jamur **beracun (poisonous)** atau **dapat dimakan (edible)** berdasarkan:</span>
-<span class="s2">- **Bau (odor)**</span>
-<span class="s2">- **Warna insang (gill color)**</span>
-<span class="s2">- **Warna cetakan spora (spore print color)**</span>
-<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
-
-<span class="c1"># Input fitur dari user</span>
-<span class="n">odor</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span><span class="s2">&quot;🧪 Bau Jamur&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;almond&#39;</span><span class="p">,</span> <span class="s1">&#39;anise&#39;</span><span class="p">,</span> <span class="s1">&#39;creosote&#39;</span><span class="p">,</span> <span class="s1">&#39;fishy&#39;</span><span class="p">,</span> <span class="s1">&#39;foul&#39;</span><span class="p">,</span> <span class="s1">&#39;musty&#39;</span><span class="p">,</span> <span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="s1">&#39;pungent&#39;</span><span class="p">,</span> <span class="s1">&#39;spicy&#39;</span><span class="p">])</span>
-<span class="n">gill_color</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span><span class="s2">&quot;🎨 Warna Insang&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="s1">&#39;brown&#39;</span><span class="p">,</span> <span class="s1">&#39;buff&#39;</span><span class="p">,</span> <span class="s1">&#39;chocolate&#39;</span><span class="p">,</span> <span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="s1">&#39;pink&#39;</span><span class="p">,</span> <span class="s1">&#39;purple&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="s1">&#39;yellow&#39;</span><span class="p">])</span>
-<span class="n">spore_print_color</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">selectbox</span><span class="p">(</span><span class="s2">&quot;🖌️ Warna Cetakan Spora&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="s1">&#39;brown&#39;</span><span class="p">,</span> <span class="s1">&#39;buff&#39;</span><span class="p">,</span> <span class="s1">&#39;chocolate&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="s1">&#39;purple&#39;</span><span class="p">,</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="s1">&#39;yellow&#39;</span><span class="p">])</span>
-
-<span class="c1"># Buat dataframe dari input user</span>
-<span class="n">input_dict</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;odor&#39;</span><span class="p">:</span> <span class="n">odor</span><span class="p">,</span>
-    <span class="s1">&#39;gill-color&#39;</span><span class="p">:</span> <span class="n">gill_color</span><span class="p">,</span>
-    <span class="s1">&#39;spore-print-color&#39;</span><span class="p">:</span> <span class="n">spore_print_color</span>
-<span class="p">}</span>
-<span class="n">input_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">input_dict</span><span class="p">])</span>
-
-<span class="c1"># Encoding (sama seperti saat training)</span>
-<span class="n">input_encoded</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">input_df</span><span class="p">)</span>
-<span class="c1"># Pastikan semua kolom ada</span>
-<span class="n">model_columns</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">feature_names_in_</span>
-<span class="n">missing_cols</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">model_columns</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">input_encoded</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">missing_cols</span><span class="p">:</span>
-    <span class="n">input_encoded</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">input_encoded</span> <span class="o">=</span> <span class="n">input_encoded</span><span class="p">[</span><span class="n">model_columns</span><span class="p">]</span>  <span class="c1"># Urutkan kolom</span>
-
-<span class="c1"># Prediksi</span>
-<span class="k">if</span> <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="s2">&quot;🔍 Prediksi&quot;</span><span class="p">):</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">input_encoded</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;🟢 **Dapat Dimakan (edible)**&quot;</span> <span class="k">if</span> <span class="n">result</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;🔴 **Beracun (poisonous)**&quot;</span>
-    <span class="n">st</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hasil Prediksi: </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;app1.py&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">app_code</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✅ File app.py berhasil disimpan.&quot;</span><span class="p">)</span>
+  df[&#39;stalk-root&#39;].fillna(df[&#39;stalk-root&#39;].mode()[0], inplace=True)
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.710 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.895 
-  <span class=" -Color -Color-Bold -Color-Bold-Yellow">Warning:</span> to view this Streamlit app on a browser, run it with the following
-  command:
-
-    streamlit run /usr/local/lib/python3.11/dist-packages/colab_kernel_launcher.py [ARGUMENTS]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.896 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.897 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.898 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.899 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.900 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.901 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.902 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.903 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.904 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.905 Session state does not function when running a script without `streamlit run`
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.906 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.907 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.908 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.909 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.910 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.910 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.911 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.912 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.913 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.913 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.914 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.915 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.915 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.916 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.916 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.917 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.918 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.935 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.939 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.940 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.941 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.943 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-06-26 02:32:43.944 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ File app.py berhasil disimpan.
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;label_encoders.pkl&#39;]
 </pre></div>
 </div>
 </div>
@@ -1641,9 +1334,8 @@ Downloading streamlit-1.46.0-py3-none-any.whl (10.1 MB)
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span>
-<span class="n">files</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">&#39;app.py&#39;</span><span class="p">)</span>
 <span class="n">files</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">&#39;mushroom_rf_model.pkl&#39;</span><span class="p">)</span>
-<span class="n">files</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">&#39;requirements.txt&#39;</span><span class="p">)</span>
+<span class="c1"># files.download(&#39;label_encoders.pkl&#39;)</span>
 </pre></div>
 </div>
 </div>
@@ -1688,92 +1380,157 @@ Downloading streamlit-1.46.0-py3-none-any.whl (10.1 MB)
       a.click();
       div.remove();
     }
-  </script><script type="application/javascript">download("download_638a71ea-b1ae-4d63-95fe-714b21a521d8", "app.py", 1287)</script><script type="application/javascript">
-    async function download(id, filename, size) {
-      if (!google.colab.kernel.accessAllowed) {
-        return;
-      }
-      const div = document.createElement('div');
-      const label = document.createElement('label');
-      label.textContent = `Downloading "${filename}": `;
-      div.appendChild(label);
-      const progress = document.createElement('progress');
-      progress.max = size;
-      div.appendChild(progress);
-      document.body.appendChild(div);
+  </script><script type="application/javascript">download("download_f0b776fc-a4f4-4661-93e9-68ec1db0f349", "mushroom_rf_model.pkl", 530521)</script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">code</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
 
-      const buffers = [];
-      let downloaded = 0;
+<span class="s1">import streamlit as st</span>
+<span class="s1">import joblib</span>
+<span class="s1">import numpy as np</span>
 
-      const channel = await google.colab.kernel.comms.open(id);
-      // Send a message to notify the kernel that we're ready.
-      channel.send({})
+<span class="s1">st.set_page_config(page_title=&quot;Prediksi Jamur&quot;, page_icon=&quot;🍄&quot;, layout=&quot;centered&quot;)</span>
 
-      for await (const message of channel.messages) {
-        // Send a message to notify the kernel that we're ready.
-        channel.send({})
-        if (message.buffers) {
-          for (const buffer of message.buffers) {
-            buffers.push(buffer);
-            downloaded += buffer.byteLength;
-            progress.value = downloaded;
-          }
-        }
-      }
-      const blob = new Blob(buffers, {type: 'application/binary'});
-      const a = document.createElement('a');
-      a.href = window.URL.createObjectURL(blob);
-      a.download = filename;
-      div.appendChild(a);
-      a.click();
-      div.remove();
-    }
-  </script><script type="application/javascript">download("download_6e5e579f-bf69-4217-a4ea-758c9961e60c", "mushroom_rf_model.pkl", 530521)</script><script type="application/javascript">
-    async function download(id, filename, size) {
-      if (!google.colab.kernel.accessAllowed) {
-        return;
-      }
-      const div = document.createElement('div');
-      const label = document.createElement('label');
-      label.textContent = `Downloading "${filename}": `;
-      div.appendChild(label);
-      const progress = document.createElement('progress');
-      progress.max = size;
-      div.appendChild(progress);
-      document.body.appendChild(div);
+<span class="s1"># Load model</span>
+<span class="s1">model = joblib.load(&#39;mushroom_rf_model1.pkl&#39;)</span>
 
-      const buffers = [];
-      let downloaded = 0;
+<span class="s1">st.title(&quot;🍄 Prediksi Jamur: Apakah Beracun atau Dapat Dimakan?&quot;)</span>
+<span class="s1">st.markdown(&quot;Masukkan ciri-ciri jamur di bawah ini untuk memprediksi klasifikasinya:&quot;)</span>
 
-      const channel = await google.colab.kernel.comms.open(id);
-      // Send a message to notify the kernel that we're ready.
-      channel.send({})
+<span class="s1"># ===========================</span>
+<span class="s1"># Dictionary pilihan fitur</span>
+<span class="s1"># ===========================</span>
 
-      for await (const message of channel.messages) {
-        // Send a message to notify the kernel that we're ready.
-        channel.send({})
-        if (message.buffers) {
-          for (const buffer of message.buffers) {
-            buffers.push(buffer);
-            downloaded += buffer.byteLength;
-            progress.value = downloaded;
-          }
-        }
-      }
-      const blob = new Blob(buffers, {type: 'application/binary'});
-      const a = document.createElement('a');
-      a.href = window.URL.createObjectURL(blob);
-      a.download = filename;
-      div.appendChild(a);
-      a.click();
-      div.remove();
-    }
-  </script><script type="application/javascript">download("download_16fac370-3a74-43f5-9c64-3b2000750b97", "requirements.txt", 43)</script></div>
+<span class="s1">cap_shape_options = {</span>
+<span class="s1">    &#39;b&#39;: &#39;Bell (b) - Lonceng&#39;,</span>
+<span class="s1">    &#39;c&#39;: &#39;Conical (c) - Kerucut&#39;,</span>
+<span class="s1">    &#39;x&#39;: &#39;Convex (x) - Cembung&#39;,</span>
+<span class="s1">    &#39;f&#39;: &#39;Flat (f) - Datar&#39;,</span>
+<span class="s1">    &#39;k&#39;: &#39;Knobbed (k) - Bertonjolan&#39;,</span>
+<span class="s1">    &#39;s&#39;: &#39;Sunken (s) - Cekung&#39;</span>
+<span class="s1">}</span>
+
+<span class="s1">cap_surface_options = {</span>
+<span class="s1">    &#39;f&#39;: &#39;Fibrous (f) - Berserat&#39;,</span>
+<span class="s1">    &#39;g&#39;: &#39;Grooves (g) - Beralur&#39;,</span>
+<span class="s1">    &#39;y&#39;: &#39;Scaly (y) - Bersisik&#39;,</span>
+<span class="s1">    &#39;s&#39;: &#39;Smooth (s) - Halus&#39;</span>
+<span class="s1">}</span>
+
+<span class="s1">cap_color_options = {</span>
+<span class="s1">    &#39;n&#39;: &#39;Brown (n) - Cokelat&#39;,</span>
+<span class="s1">    &#39;b&#39;: &#39;Buff (b) - Krem&#39;,</span>
+<span class="s1">    &#39;c&#39;: &#39;Cinnamon (c) - Kayu manis&#39;,</span>
+<span class="s1">    &#39;g&#39;: &#39;Gray (g) - Abu-abu&#39;,</span>
+<span class="s1">    &#39;r&#39;: &#39;Green (r) - Hijau&#39;,</span>
+<span class="s1">    &#39;p&#39;: &#39;Pink (p) - Merah muda&#39;,</span>
+<span class="s1">    &#39;u&#39;: &#39;Purple (u) - Ungu&#39;,</span>
+<span class="s1">    &#39;e&#39;: &#39;Red (e) - Merah&#39;,</span>
+<span class="s1">    &#39;w&#39;: &#39;White (w) - Putih&#39;,</span>
+<span class="s1">    &#39;y&#39;: &#39;Yellow (y) - Kuning&#39;</span>
+<span class="s1">}</span>
+
+<span class="s1">bruises_options = {</span>
+<span class="s1">    &#39;t&#39;: &#39;Yes (t) - Memar&#39;,</span>
+<span class="s1">    &#39;f&#39;: &#39;No (f) - Tidak memar&#39;</span>
+<span class="s1">}</span>
+
+<span class="s1">odor_options = {</span>
+<span class="s1">    &#39;a&#39;: &#39;Almond (a) - Almond&#39;,</span>
+<span class="s1">    &#39;l&#39;: &#39;Anise (l) - Adas manis&#39;,</span>
+<span class="s1">    &#39;c&#39;: &#39;Creosote (c) - Bau tar&#39;,</span>
+<span class="s1">    &#39;y&#39;: &#39;Fishy (y) - Amis&#39;,</span>
+<span class="s1">    &#39;f&#39;: &#39;Foul (f) - Busuk&#39;,</span>
+<span class="s1">    &#39;m&#39;: &#39;Musty (m) - Apak&#39;,</span>
+<span class="s1">    &#39;n&#39;: &#39;None (n) - Tidak ada&#39;,</span>
+<span class="s1">    &#39;p&#39;: &#39;Pungent (p) - Menyengat&#39;,</span>
+<span class="s1">    &#39;s&#39;: &#39;Spicy (s) - Pedas&#39;</span>
+<span class="s1">}</span>
+
+<span class="s1"># ===========================</span>
+<span class="s1"># Input dari user</span>
+<span class="s1"># ===========================</span>
+
+<span class="s1">cap_shape = st.selectbox(&quot;Bentuk Topi Jamur (cap-shape)&quot;, list(cap_shape_options.values()))</span>
+<span class="s1">cap_surface = st.selectbox(&quot;Permukaan Topi Jamur (cap-surface)&quot;, list(cap_surface_options.values()))</span>
+<span class="s1">cap_color = st.selectbox(&quot;Warna Topi Jamur (cap-color)&quot;, list(cap_color_options.values()))</span>
+<span class="s1">bruises = st.selectbox(&quot;Apakah Jamur Memar? (bruises)&quot;, list(bruises_options.values()))</span>
+<span class="s1">odor = st.selectbox(&quot;Bau Jamur (odor)&quot;, list(odor_options.values()))</span>
+
+<span class="s1"># ===========================</span>
+<span class="s1"># Konversi ke kode</span>
+<span class="s1"># ===========================</span>
+
+<span class="s1">def get_key(d, value):</span>
+<span class="s1">    return [k for k, v in d.items() if v == value][0]</span>
+
+<span class="s1">data_input = [</span>
+<span class="s1">    get_key(cap_shape_options, cap_shape),</span>
+<span class="s1">    get_key(cap_surface_options, cap_surface),</span>
+<span class="s1">    get_key(cap_color_options, cap_color),</span>
+<span class="s1">    get_key(bruises_options, bruises),</span>
+<span class="s1">    get_key(odor_options, odor)</span>
+<span class="s1">]</span>
+
+<span class="s1"># Buat array lengkap (22 kolom) - kita isi dummy untuk yang tidak digunakan</span>
+<span class="s1"># Posisi kolom berdasarkan urutan asli dataset (drop class)</span>
+<span class="s1"># 0: cap-shape, 1: cap-surface, 2: cap-color, 3: bruises, 4: odor</span>
+<span class="s1"># isi lainnya default &#39;x&#39; (nanti akan di-labelencode ke nilai tetap saat training)</span>
+
+<span class="s1">dummy_input = [&#39;x&#39;] * 22</span>
+<span class="s1">dummy_input[0] = data_input[0]</span>
+<span class="s1">dummy_input[1] = data_input[1]</span>
+<span class="s1">dummy_input[2] = data_input[2]</span>
+<span class="s1">dummy_input[3] = data_input[3]</span>
+<span class="s1">dummy_input[4] = data_input[4]</span>
+
+<span class="s1"># Gunakan LabelEncoder yang sudah dilatih</span>
+<span class="s1">le = joblib.load(&#39;label_encoder.pkl&#39;)</span>
+<span class="s1">encoded_input = le.transform(dummy_input).reshape(1, -1)</span>
+
+<span class="s1"># ===========================</span>
+<span class="s1"># Prediksi</span>
+<span class="s1"># ===========================</span>
+
+<span class="s1">if st.button(&quot;🔍 Prediksi Jamur&quot;):</span>
+<span class="s1">    pred = model.predict(encoded_input)[0]</span>
+
+<span class="s1">    if pred == 0:</span>
+<span class="s1">        st.success(&quot;✅ Hasil: **Jamur ini dapat dimakan (Edible)**&quot;)</span>
+<span class="s1">    else:</span>
+<span class="s1">        st.error(&quot;⚠️ Hasil: **Jamur ini beracun (Poisonous)**&quot;)</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;app.py&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">requirements</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">streamlit</span>
+<span class="s2">pandas</span>
+<span class="s2">scikit-learn</span>
+<span class="s2">joblib</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="c1"># Simpan ke file</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;requirements.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">requirements</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span>
-<span class="n">files</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">&#39;app1.py&#39;</span><span class="p">)</span>
+
+<span class="c1"># Download file</span>
+<span class="n">files</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s2">&quot;app.py&quot;</span><span class="p">)</span>
+<span class="c1"># files.download(&quot;requirements.txt&quot;)</span>
 </pre></div>
 </div>
 </div>
@@ -1818,57 +1575,7 @@ Downloading streamlit-1.46.0-py3-none-any.whl (10.1 MB)
       a.click();
       div.remove();
     }
-  </script><script type="application/javascript">download("download_919b6c85-0038-4280-81a4-2306e6407b19", "app1.py", 1287)</script></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span>
-<span class="n">files</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">&#39;mushroom_rf_model1.pkl&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<script type="application/javascript">
-    async function download(id, filename, size) {
-      if (!google.colab.kernel.accessAllowed) {
-        return;
-      }
-      const div = document.createElement('div');
-      const label = document.createElement('label');
-      label.textContent = `Downloading "${filename}": `;
-      div.appendChild(label);
-      const progress = document.createElement('progress');
-      progress.max = size;
-      div.appendChild(progress);
-      document.body.appendChild(div);
-
-      const buffers = [];
-      let downloaded = 0;
-
-      const channel = await google.colab.kernel.comms.open(id);
-      // Send a message to notify the kernel that we're ready.
-      channel.send({})
-
-      for await (const message of channel.messages) {
-        // Send a message to notify the kernel that we're ready.
-        channel.send({})
-        if (message.buffers) {
-          for (const buffer of message.buffers) {
-            buffers.push(buffer);
-            downloaded += buffer.byteLength;
-            progress.value = downloaded;
-          }
-        }
-      }
-      const blob = new Blob(buffers, {type: 'application/binary'});
-      const a = document.createElement('a');
-      a.href = window.URL.createObjectURL(blob);
-      a.download = filename;
-      div.appendChild(a);
-      a.click();
-      div.remove();
-    }
-  </script><script type="application/javascript">download("download_121416d1-e563-48ef-b724-eb8225bc1fda", "mushroom_rf_model1.pkl", 521369)</script></div>
+  </script><script type="application/javascript">download("download_dcfe061d-fbbb-48a0-b7b8-713847f4dc93", "app.py", 3381)</script></div>
 </div>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="hasil-deployment">
